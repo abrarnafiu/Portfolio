@@ -1,6 +1,6 @@
 import { Box, Container, Heading, Text, VStack, HStack, Badge, Image, Link, Button, Divider, List, ListItem, ListIcon, useColorModeValue, SimpleGrid } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheck, FaCheckCircle, FaLightbulb, FaTools } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheckCircle, FaLightbulb, FaTools } from 'react-icons/fa'
 import { useParams, Link as RouterLink } from 'react-router-dom'
 
 const MotionBox = motion(Box)

@@ -1,5 +1,5 @@
 import { Box, Container, Heading, Text, VStack, HStack, Link, Icon, Button, Flex, useColorModeValue } from '@chakra-ui/react'
-import { motion, useMotionValue, useSpring, useTransform, Transition } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform} from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial, Stars } from '@react-three/drei'
 import { FaLinkedin, FaGithub, FaGlobe, FaPhone, FaEnvelope, FaArrowRight } from 'react-icons/fa'

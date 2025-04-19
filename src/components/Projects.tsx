@@ -1,4 +1,4 @@
-import { Box, Container, Heading, SimpleGrid, Text, Image, Link, Tag, VStack, HStack, Badge } from '@chakra-ui/react'
+import { Box, Container, Heading, SimpleGrid, Text, Image, Link, VStack, HStack, Badge } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { Link as RouterLink } from 'react-router-dom'

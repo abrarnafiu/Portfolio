@@ -1,7 +1,7 @@
-import { Box, Container, Heading, SimpleGrid, Text, Icon, VStack, HStack, Tag, Badge } from '@chakra-ui/react'
+import { Box, Container, Heading, SimpleGrid, Text, Icon, VStack, HStack, Badge } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { FaReact, FaPython, FaJava, FaAws, FaNodeJs, FaDatabase, FaFutbol, FaBasketballBall, FaCamera, FaVideo, FaBook, FaCode, FaPen } from 'react-icons/fa'
-import { SiTypescript, SiSpringboot, SiSupabase, SiCplusplus } from 'react-icons/si'
+import { FaReact, FaPython, FaAws, FaNodeJs, FaDatabase, FaFutbol, FaBasketballBall, FaCamera, FaVideo, FaBook, FaCode, FaPen } from 'react-icons/fa'
+import { SiTypescript, SiSpringboot, SiCplusplus } from 'react-icons/si'
 
 const MotionBox = motion(Box)
 

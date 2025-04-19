@@ -1,6 +1,6 @@
-import { Box, Container, Heading, Text, VStack, Image, SimpleGrid, List, ListItem, ListIcon, Badge, HStack, Icon } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, VStack, Image, SimpleGrid, Badge, HStack, Icon } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { FaGraduationCap, FaBook, FaStar, FaUniversity } from 'react-icons/fa'
+import {FaBook, FaStar, FaUniversity } from 'react-icons/fa'
 
 const MotionBox = motion(Box)
 
