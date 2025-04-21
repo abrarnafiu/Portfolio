@@ -2,6 +2,9 @@ import { Box, Container, Heading, Text, VStack, HStack, Badge, Image, Link, Butt
 import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheckCircle, FaLightbulb, FaTools } from 'react-icons/fa'
 import { useParams, Link as RouterLink } from 'react-router-dom'
+import watchImage from '../assets/watchEngine.png'
+import nurtureImage from '../assets/nurtureNest.jpg'
+import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)
 
@@ -33,7 +36,7 @@ export const ProjectDetail = () => {
       longDescription: `The AI-Powered Watch Search Engine is a sophisticated application that revolutionizes how users discover luxury timepieces. By leveraging cutting-edge AI technologies, the platform understands natural language queries and returns highly relevant watch recommendations.
 
 The project addresses a common challenge in the luxury watch market: finding the perfect timepiece based on specific preferences, budget constraints, and style requirements. Traditional search methods often fall short when users don't know the exact model names or technical specifications they're looking for.`,
-      image: 'https://via.placeholder.com/800x400',
+      image: watchImage,
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API', 'React'],
       githubUrl: 'https://github.com/abrarnafiu',
@@ -64,9 +67,9 @@ The project addresses a common challenge in the luxury watch market: finding the
       longDescription: `Nurture Nest is a comprehensive mental health application designed specifically for expectant mothers in Ghana. The app provides tools, resources, and support to help women navigate the emotional challenges of pregnancy and early motherhood.
 
 The project was initiated in response to the growing recognition of perinatal mental health issues, which affect up to 20% of pregnant women and new mothers. By offering accessible mental health support through a mobile platform, Nurture Nest aims to reduce barriers to care and improve outcomes for both mothers and their babies.`,
-      image: 'https://via.placeholder.com/800x400',
+      image: nurtureImage,
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
-      technologies: ['React Native', 'Expo', 'AsyncStorage'],
+      technologies: ['React Native', 'Expo', 'AsyncStorage', 'TypeScript'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
       achievements: [
@@ -95,7 +98,7 @@ The project was initiated in response to the growing recognition of perinatal me
       longDescription: `The Monte Carlo Simulation tool is a sophisticated financial modeling application that helps analysts and investors assess risk and make informed decisions. By running thousands of simulated scenarios, the tool provides insights into potential outcomes and their probabilities.
 
 This project addresses the need for more accessible and powerful risk assessment tools in the financial industry. Traditional risk models often rely on simplified assumptions that don't capture the complexity of real-world markets. The Monte Carlo approach allows for more nuanced modeling of uncertainty and variability.`,
-      image: 'https://via.placeholder.com/800x400',
+      image: pangImage,
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
       technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
       githubUrl: 'https://github.com/abrarnafiu/PANG',

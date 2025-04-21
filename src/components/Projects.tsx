@@ -2,6 +2,9 @@ import { Box, Container, Heading, SimpleGrid, Text, Image, Link, VStack, HStack,
 import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { Link as RouterLink } from 'react-router-dom'
+import watchImage from '../assets/watchEngine.png'
+import nurtureImage from '../assets/nurtureNest.jpg'
+import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)
 
@@ -39,15 +42,18 @@ const ProjectCard = ({ id, title, description, image, technologies, githubUrl, l
     >
       <Link as={RouterLink} to={`/project/${id}`} _hover={{ textDecoration: 'none' }}>
         <Box position="relative" h="200px" overflow="hidden">
-          <Image
-            src={image}
-            alt={title}
-            w="full"
-            h="full"
-            objectFit="cover"
-            transition="transform 0.5s"
-            _hover={{ transform: 'scale(1.1)' }}
-          />
+        <Image
+  src={image}
+  alt={title}
+  w="full"
+  h="full"
+  objectFit="contain"
+  bg="gray.50" // optional, helps if your image has transparency or awkward aspect ratio
+  p={2} // optional, adds padding so the image doesn’t look squashed
+  transition="transform 0.5s"
+  _hover={{ transform: 'scale(1.05)' }}
+/>
+
           <Box
             position="absolute"
             top={0}
@@ -143,7 +149,7 @@ export const Projects = () => {
       id: 'ai-watch-search',
       title: 'AI-Powered Watch Search Engine',
       description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
-      image: 'https://via.placeholder.com/400x200',
+      image: watchImage,
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API'],
       githubUrl: 'https://github.com/abrarnafiu',
       achievements: [
@@ -156,8 +162,8 @@ export const Projects = () => {
       id: 'nurture-nest',
       title: 'Nurture Nest (Pregnancy Mental Health App)',
       description: 'A cross-platform mobile app developed for the Innovators of Global Health Club, focusing on pregnancy mental health support.',
-      image: 'https://via.placeholder.com/400x200',
-      technologies: ['React Native', 'Expo', 'AsyncStorage'],
+      image: nurtureImage,
+      technologies: ['React Native', 'Expo', 'AsyncStorage', 'TypeScript'],
       githubUrl: 'https://github.com/abrarnafiu',
       achievements: [
         'Achieved 95% crash-free user experience',
@@ -170,7 +176,7 @@ export const Projects = () => {
       id: 'monte-carlo-simulation',
       title: 'Monte Carlo Simulation for Quantitative Analysis',
       description: 'A financial risk modeling tool using Monte Carlo simulation, featuring interactive data visualization and real-time results exploration.',
-      image: 'https://via.placeholder.com/400x200',
+      image: pangImage,
       technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
       githubUrl: 'https://github.com/abrarnafiu/PANG',
       achievements: [
