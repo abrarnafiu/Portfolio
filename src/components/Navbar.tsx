@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, Button, HStack, Text, Link } from '@chakra-ui/react'
+import { Box, Flex, Button, HStack, Text} from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 
 const MotionBox = motion(Box)
