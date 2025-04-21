@@ -1,6 +1,7 @@
 import { Box, Container, Heading, Text, VStack, Image, SimpleGrid, Badge, HStack, Icon } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import {FaBook, FaStar, FaUniversity } from 'react-icons/fa'
+import bannerImg from '../assets/northeastern-banner-N-removebg-preview.png'
 
 const MotionBox = motion(Box)
 
@@ -140,13 +141,15 @@ export const About = () => {
                     </Heading>
                     <SimpleGrid columns={2} spacing={2}>
                       {[
-                        'Fundamentals of Computer Science',
-                        'Discrete Structures',
+                        'Objected Oriented Design',
                         'Data Structures and Algorithms',
+                        'Discrete Structures',
+                        'Fundamentals of Computer Science',
                         'Cybersecurity',
                         'PLTW Digital Electronics',
                         'IT Infrastructure',
-                        'Big Data Analytics'
+                        'Big Data Analytics',
+                        
                       ].map((course) => (
                         <Badge 
                           key={course} 
@@ -241,7 +244,7 @@ export const About = () => {
               overflow="hidden"
               boxShadow="xl"
               position="relative"
-              bg="white"
+              bg="black"
               p={4}
               _hover={{ transform: 'translateY(-10px)' }}
               transition="all 0.3s"
@@ -255,7 +258,7 @@ export const About = () => {
                 bgGradient="linear(to-r, brand.500, accent.500)"
               />
               <Image
-                src="https://via.placeholder.com/600x800"
+                src={bannerImg}
                 alt="Profile"
                 w="full"
                 h="full"

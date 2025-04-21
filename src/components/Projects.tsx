@@ -172,7 +172,7 @@ export const Projects = () => {
       description: 'A financial risk modeling tool using Monte Carlo simulation, featuring interactive data visualization and real-time results exploration.',
       image: 'https://via.placeholder.com/400x200',
       technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
-      githubUrl: 'https://github.com/abrarnafiu',
+      githubUrl: 'https://github.com/abrarnafiu/PANG',
       achievements: [
         'Developed and optimized Monte Carlo simulation using Python',
         'Built full-stack web application with Flask backend and React frontend',

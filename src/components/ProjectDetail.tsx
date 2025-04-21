@@ -98,7 +98,7 @@ This project addresses the need for more accessible and powerful risk assessment
       image: 'https://via.placeholder.com/800x400',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
       technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
-      githubUrl: 'https://github.com/abrarnafiu',
+      githubUrl: 'https://github.com/abrarnafiu/PANG',
       liveUrl: 'https://example.com',
       achievements: [
         'Developed and optimized Monte Carlo simulation using Python',

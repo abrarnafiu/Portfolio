@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, Button, HStack, Text } from '@chakra-ui/react'
+import { Box, Flex, Button, HStack, Text, Link } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 
 const MotionBox = motion(Box)
@@ -24,10 +24,14 @@ export const Navbar: React.FC = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <Text fontSize="xl" fontWeight="bold" color="brand.500">
-          Portfolio
-        </Text>
+        <a href="/" style={{ textDecoration: 'none' }}>
+          <Text fontSize="xl" fontWeight="bold" color="brand.500">
+            Portfolio
+          </Text>
+        </a>
       </MotionBox>
+
+
 
       <HStack spacing={8}>
         {sections.map((section) => (
