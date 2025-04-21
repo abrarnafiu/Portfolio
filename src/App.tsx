@@ -10,11 +10,12 @@ import { Navbar } from './components/Navbar'
 import { ProjectDetail } from './components/ProjectDetail'
 import { theme } from './theme'
 
-const SectionWithLine = ({ children }) => (
+const SectionWithLine: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Box borderBottom="1px" borderColor="black" w="100%">
     {children}
   </Box>
 )
+
 
 const HomePage = () => (
   <Box w="100%">
