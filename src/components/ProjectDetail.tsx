@@ -29,19 +29,19 @@ export const ProjectDetail = () => {
   const projectDetails: Record<string, ProjectDetailProps> = {
     'ai-watch-search': {
       title: 'AI-Powered Watch Search Engine',
-      description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Weaviate for semantic search.',
+      description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
       longDescription: `The AI-Powered Watch Search Engine is a sophisticated application that revolutionizes how users discover luxury timepieces. By leveraging cutting-edge AI technologies, the platform understands natural language queries and returns highly relevant watch recommendations.
 
 The project addresses a common challenge in the luxury watch market: finding the perfect timepiece based on specific preferences, budget constraints, and style requirements. Traditional search methods often fall short when users don't know the exact model names or technical specifications they're looking for.`,
       image: 'https://via.placeholder.com/800x400',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
-      technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API', 'Weaviate', 'React', 'Next.js'],
+      technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API', 'React'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
       achievements: [
-        'Engineered a vector-based search pipeline integrating Weaviate and OpenAI',
+        'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
         'Ingested thousands of watches from the Watch Database API',
-        'Populated both Supabase (relational data) and Weaviate (vector embeddings)',
+        'Populated Supabase for both relational data and vector embeddings',
         'Achieved 95% search relevance score in user testing',
         'Reduced search time from 3 seconds to under 500ms'
       ],
@@ -61,12 +61,12 @@ The project addresses a common challenge in the luxury watch market: finding the
     'nurture-nest': {
       title: 'Nurture Nest (Pregnancy Mental Health App)',
       description: 'A cross-platform mobile app developed for the Innovators of Global Health Club, focusing on pregnancy mental health support.',
-      longDescription: `Nurture Nest is a comprehensive mental health application designed specifically for expectant mothers. The app provides tools, resources, and support to help women navigate the emotional challenges of pregnancy and early motherhood.
+      longDescription: `Nurture Nest is a comprehensive mental health application designed specifically for expectant mothers in Ghana. The app provides tools, resources, and support to help women navigate the emotional challenges of pregnancy and early motherhood.
 
 The project was initiated in response to the growing recognition of perinatal mental health issues, which affect up to 20% of pregnant women and new mothers. By offering accessible mental health support through a mobile platform, Nurture Nest aims to reduce barriers to care and improve outcomes for both mothers and their babies.`,
       image: 'https://via.placeholder.com/800x400',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
-      technologies: ['React Native', 'Expo', 'AsyncStorage', 'Firebase', 'Redux', 'Node.js', 'Express'],
+      technologies: ['React Native', 'Expo', 'AsyncStorage'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
       achievements: [
@@ -97,12 +97,11 @@ The project was initiated in response to the growing recognition of perinatal me
 This project addresses the need for more accessible and powerful risk assessment tools in the financial industry. Traditional risk models often rely on simplified assumptions that don't capture the complexity of real-world markets. The Monte Carlo approach allows for more nuanced modeling of uncertainty and variability.`,
       image: 'https://via.placeholder.com/800x400',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
-      technologies: ['Python', 'Flask', 'React', 'Parallel Processing', 'D3.js', 'Pandas', 'NumPy', 'SciPy'],
+      technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
       achievements: [
         'Developed and optimized Monte Carlo simulation using Python',
-        'Integrated probability distributions and parallel processing',
         'Built full-stack web application with Flask backend and React frontend',
         'Reduced simulation time by 9% and implemented responsive design',
         'Created interactive visualizations that help users understand complex data'
@@ -113,8 +112,6 @@ This project addresses the need for more accessible and powerful risk assessment
         'Ensuring accuracy across different market conditions'
       ],
       solutions: [
-        'Implemented parallel processing to distribute calculations across multiple CPU cores',
-        'Developed a custom visualization library built on D3.js for financial data',
         'Conducted extensive backtesting against historical market data to validate the model'
       ],
       role: 'Quantitative Developer',

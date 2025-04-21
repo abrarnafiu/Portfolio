@@ -142,14 +142,14 @@ export const Projects = () => {
     {
       id: 'ai-watch-search',
       title: 'AI-Powered Watch Search Engine',
-      description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Weaviate for semantic search.',
+      description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
       image: 'https://via.placeholder.com/400x200',
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API'],
       githubUrl: 'https://github.com/abrarnafiu',
       achievements: [
-        'Engineered a vector-based search pipeline integrating Weaviate and OpenAI',
+        'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
         'Ingested thousands of watches from the Watch Database API',
-        'Populated both Supabase (relational data) and Weaviate (vector embeddings)'
+        'Populated Supabase with both relational data and vector embeddings'
       ]
     },
     {
@@ -171,11 +171,10 @@ export const Projects = () => {
       title: 'Monte Carlo Simulation for Quantitative Analysis',
       description: 'A financial risk modeling tool using Monte Carlo simulation, featuring interactive data visualization and real-time results exploration.',
       image: 'https://via.placeholder.com/400x200',
-      technologies: ['Python', 'Flask', 'React', 'Parallel Processing'],
+      technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
       githubUrl: 'https://github.com/abrarnafiu',
       achievements: [
         'Developed and optimized Monte Carlo simulation using Python',
-        'Integrated probability distributions and parallel processing',
         'Built full-stack web application with Flask backend and React frontend',
         'Reduced simulation time by 9% and implemented responsive design'
       ]
