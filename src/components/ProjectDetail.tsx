@@ -37,7 +37,7 @@ export const ProjectDetail = () => {
 
 The project addresses a common challenge in the luxury watch market: finding the perfect timepiece based on specific preferences, budget constraints, and style requirements. Traditional search methods often fall short when users don't know the exact model names or technical specifications they're looking for.`,
       image: watchImage,
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
+      videoUrl: '', // Replace with actual video URL
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API', 'React'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
@@ -68,7 +68,7 @@ The project addresses a common challenge in the luxury watch market: finding the
 
 The project was initiated in response to the growing recognition of perinatal mental health issues, which affect up to 20% of pregnant women and new mothers. By offering accessible mental health support through a mobile platform, Nurture Nest aims to reduce barriers to care and improve outcomes for both mothers and their babies.`,
       image: nurtureImage,
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
+      videoUrl: '', // Replace with actual video URL
       technologies: ['React Native', 'Expo', 'AsyncStorage', 'TypeScript'],
       githubUrl: 'https://github.com/abrarnafiu',
       liveUrl: 'https://example.com',
@@ -99,7 +99,7 @@ The project was initiated in response to the growing recognition of perinatal me
 
 This project addresses the need for more accessible and powerful risk assessment tools in the financial industry. Traditional risk models often rely on simplified assumptions that don't capture the complexity of real-world markets. The Monte Carlo approach allows for more nuanced modeling of uncertainty and variability.`,
       image: pangImage,
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video URL
+      videoUrl: '', // Replace with actual video URL
       technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
       githubUrl: 'https://github.com/abrarnafiu/PANG',
       liveUrl: 'https://example.com',
@@ -222,21 +222,31 @@ This project addresses the need for more accessible and powerful risk assessment
           </MotionBox>
           
           <Box 
-            borderRadius="xl" 
-            overflow="hidden" 
-            boxShadow="xl"
-            bg={bgColor}
-            border="1px"
-            borderColor={borderColor}
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              w="full"
-              h="auto"
-              objectFit="cover"
-            />
-          </Box>
+  width={{ base: "100%", md: "100%" }} 
+  mx="auto"
+>
+<Box width={{ base: "100%", md: "100%" }} mx="auto">
+  <Box 
+    borderRadius="xl" 
+    overflow="hidden" 
+    boxShadow="xl"
+    bg={bgColor}
+    border="1px"
+    borderColor={borderColor}
+  >
+    <Image
+      src={project.image}
+      alt={project.title}
+      w="full"
+      maxH="500px" // limits height but keeps aspect ratio
+      objectFit="contain"
+      bg="gray.50"
+    />
+  </Box>
+</Box>
+
+</Box>
+
           
           {project.videoUrl && (
             <Box 

@@ -58,7 +58,7 @@ export const Contact = () => {
 
   return (
     <Box id="contact" py={20} bg="gray.50">
-      <Container maxW="container.md">
+    <Container maxW="container.xl">
         <VStack spacing={12}>
           <MotionBox
             initial={{ opacity: 0, y: 20 }}

@@ -10,15 +10,24 @@ import { Navbar } from './components/Navbar'
 import { ProjectDetail } from './components/ProjectDetail'
 import { theme } from './theme'
 
-const HomePage = () => (
-  <VStack spacing={20} w="full">
-    <Hero />
-    <About />
-    <Skills />
-    <Projects />
-    <Contact />
-  </VStack>
+const SectionWithLine = ({ children }) => (
+  <Box borderBottom="1px" borderColor="black" w="100%">
+    {children}
+  </Box>
 )
+
+const HomePage = () => (
+  <Box w="100%">
+    <VStack spacing={20} w="100%" align="stretch">
+      <SectionWithLine><Hero /></SectionWithLine>
+      <SectionWithLine><About /></SectionWithLine>
+      <SectionWithLine><Skills /></SectionWithLine>
+      <SectionWithLine><Projects /></SectionWithLine>
+      <SectionWithLine><Contact /></SectionWithLine>
+    </VStack>
+  </Box>
+)
+
 
 const App: React.FC = () => {
   return (
