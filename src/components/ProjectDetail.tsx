@@ -30,7 +30,7 @@ export const ProjectDetail = () => {
   // This would typically come from an API or database
   // For now, we'll use a static mapping
   const projectDetails: Record<string, ProjectDetailProps> = {
-    'ai-watch-search': {
+    'watch-engine': {
       title: 'AI-Powered Watch Search Engine',
       description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
       longDescription: `The AI-Powered Watch Search Engine is a sophisticated application that revolutionizes how users discover luxury timepieces. By leveraging cutting-edge AI technologies, the platform understands natural language queries and returns highly relevant watch recommendations.
@@ -40,7 +40,7 @@ The project addresses a common challenge in the luxury watch market: finding the
       videoUrl: '', // Replace with actual video URL
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API', 'React'],
       githubUrl: 'https://github.com/abrarnafiu',
-      liveUrl: 'https://example.com',
+      liveUrl: 'https://watch-engine.onrender.com/',
       achievements: [
         'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
         'Ingested thousands of watches from the Watch Database API',

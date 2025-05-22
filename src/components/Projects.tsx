@@ -146,12 +146,13 @@ const ProjectCard = ({ id, title, description, image, technologies, githubUrl, l
 export const Projects = () => {
   const projects = [
     {
-      id: 'ai-watch-search',
+      id: 'watch-engine',
       title: 'AI-Powered Watch Search Engine',
       description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
       image: watchImage,
       technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API'],
       githubUrl: 'https://github.com/abrarnafiu',
+      liveUrl: 'https://watch-engine.onrender.com/',
       achievements: [
         'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
         'Ingested thousands of watches from the Watch Database API',
