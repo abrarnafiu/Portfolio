@@ -95,8 +95,8 @@ export const About = () => {
                       </Text>
                       <HStack spacing={2}>
                         <Badge colorScheme="brand">Minor: Mathematics</Badge>
-                        <Badge colorScheme="accent">GPA: 3.83</Badge>
-                        <Badge colorScheme="gray">Expected May 2028</Badge>
+                        <Badge colorScheme="accent">GPA: 3.7</Badge>
+                        <Badge colorScheme="gray">Expected December 2027</Badge>
                       </HStack>
                     </VStack>
                   </Box>
