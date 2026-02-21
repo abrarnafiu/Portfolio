@@ -1,229 +1,133 @@
-import { Box, Container, Heading, Text, VStack, HStack, Link, Icon, Button, Flex, useColorModeValue } from '@chakra-ui/react'
-import { motion, useMotionValue, useSpring, useTransform} from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sphere, MeshDistortMaterial, Stars } from '@react-three/drei'
-import { FaLinkedin, FaGithub, FaGlobe, FaPhone, FaEnvelope, FaArrowRight } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { Box, Container, Heading, Text, VStack, HStack, Link, Button } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
+import { FaArrowRight, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
-const MotionBox = motion(Box)
-const MotionFlex = motion(Flex)
+const MotionVStack = motion(VStack)
 
 export const Hero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
-  
-  // Spring values for smooth animation
-  const springConfig = { damping: 20, stiffness: 100 }
-  const x = useSpring(useMotionValue(0), springConfig)
-  const y = useSpring(useMotionValue(0), springConfig)
-  
-  // Transform mouse position to color values
-  const hue = useTransform(x, [0, windowSize.width], [0, 360])
-  const saturation = useTransform(y, [0, windowSize.height], [30, 70])
-  
-  // Update mouse position
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-      x.set(e.clientX)
-      y.set(e.clientY)
-    }
-    
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
-    }
-    
-    handleResize()
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('resize', handleResize)
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [x, y])
-  
-  // Get color mode values
-  const bgGradient = useColorModeValue(
-    'linear(to-b, brand.50, white)',
-    'linear(to-b, gray.900, gray.800)'
-  )
-  
   return (
-    <Box 
-      bg="gray.50" 
-      position="relative" 
-      overflow="hidden"
-      minH="100vh"
+    <Box
+      position="relative"
+      minH={{ base: '85vh', md: '90vh' }}
       display="flex"
       alignItems="center"
+      bg="white"
+      overflow="hidden"
     >
-      {/* Interactive background */}
-      <MotionBox
+      {/* Subtle background glow */}
+      <Box
         position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        bottom="0"
-        bgGradient={bgGradient}
-        opacity={0.7}
-        zIndex={1}
-      />
-      
-      {/* Color-changing gradient overlay */}
-      <MotionBox
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        bottom="0"
-        bgGradient={`radial(circle at ${mousePosition.x}px ${mousePosition.y}px, hsla(${hue.get()}, ${saturation.get()}%, 85%, 0.1), transparent 50%)`}
-        zIndex={2}
-      />
-      
-      {/* Decorative elements */}
-      <MotionBox
-        position="absolute"
-        top="10%"
-        right="5%"
-        w="300px"
-        h="300px"
+        top="-20%"
+        right="-10%"
+        w="600px"
+        h="600px"
         borderRadius="full"
-        bg={`hsla(${hue.get()}, ${saturation.get()}%, 85%, 0.1)`}
-        opacity={0.3}
-        filter="blur(40px)"
-        zIndex={2}
+        bg="brand.50"
+        opacity={0.6}
+        filter="blur(80px)"
+        pointerEvents="none"
       />
-      <MotionBox
+      <Box
         position="absolute"
-        bottom="10%"
-        left="5%"
-        w="250px"
-        h="250px"
+        bottom="-10%"
+        left="-5%"
+        w="400px"
+        h="400px"
         borderRadius="full"
-        bg={`hsla(${(hue.get() + 180) % 360}, ${saturation.get()}%, 85%, 0.1)`}
-        opacity={0.3}
-        filter="blur(40px)"
-        zIndex={2}
+        bg="brand.50"
+        opacity={0.4}
+        filter="blur(60px)"
+        pointerEvents="none"
       />
-      
-      <Container maxW="container.xl" py={20} position="relative" zIndex={3}>
-        <Flex 
-          direction={{ base: 'column', lg: 'row' }} 
-          align="center" 
-          justify="space-between"
+
+      <Container maxW="1200px" position="relative" zIndex={1} py={{ base: 24, md: 32 }}>
+        <MotionVStack
+          align={{ base: 'center', md: 'flex-start' }}
+          textAlign={{ base: 'center', md: 'left' }}
+          spacing={6}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-          {/* Content */}
-          <MotionFlex
-            direction="column"
-            align="flex-start"
-            maxW={{ base: '100%', lg: '50%' }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+          <Heading
+            as="h1"
+            fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
+            fontWeight={700}
+            letterSpacing="-0.03em"
+            lineHeight={1.1}
+            color="gray.900"
           >
-            <VStack align="flex-start" spacing={6}>
-              <Heading
-                as="h1"
-                size="3xl"
-                bgGradient={`linear(to-r, hsla(${hue.get()}, ${saturation.get()}%, 70%, 1), hsla(${(hue.get() + 60) % 360}, ${saturation.get()}%, 70%, 1))`}
-                bgClip="text"
-                lineHeight="1.2"
-                fontWeight="extrabold"
-                letterSpacing="tight"
-                transition="all 0.3s"
-              >
-                Hi, I'm Abrar Nafiu
-              </Heading>
-              <Heading as="h2" size="xl" color="gray.700" fontWeight="bold">
-                Computer Science Student
-              </Heading>
-              <Text fontSize="xl" color="gray.600" lineHeight="tall">
-                A passionate developer with expertise in Python, ReactJS, Java Spring Boot, and AWS.
-                Currently pursuing my BS in Computer Science at Northeastern University.
-              </Text>
-              <HStack spacing={4} pt={4}>
-                <Button
-                  as={Link}
-                  href="#contact"
-                  colorScheme="brand"
-                  size="lg"
-                  rightIcon={<FaArrowRight />}
-                  _hover={{
-                    transform: 'translateY(-3px)',
-                    boxShadow: 'lg',
-                    bg: `hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`,
-                  }}
-                  transition="all 0.3s"
-                >
-                  Get in Touch
-                </Button>
-                <Button
-                  as={Link}
-                  href="#projects"
-                  variant="outline"
-                  colorScheme="brand"
-                  size="lg"
-                  borderColor={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`}
-                  color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`}
-                  _hover={{
-                    transform: 'translateY(-3px)',
-                    boxShadow: 'md',
-                    bg: `hsla(${hue.get()}, ${saturation.get()}%, 70%, 0.1)`,
-                  }}
-                  transition="all 0.3s"
-                >
-                  View Projects
-                </Button>
-              </HStack>
-              <HStack spacing={6} pt={4}>
-                <Link href="https://www.linkedin.com/in/abrar-nafiu/" isExternal>
-                  <Icon as={FaLinkedin} w={6} h={6} color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`} _hover={{ color: `hsla(${hue.get()}, ${saturation.get()}%, 60%, 1)`, transform: 'scale(1.2)' }} transition="all 0.2s" />
-                </Link>
-                <Link href="https://github.com/abrarnafiu" isExternal>
-                  <Icon as={FaGithub} w={6} h={6} color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`} _hover={{ color: `hsla(${hue.get()}, ${saturation.get()}%, 60%, 1)`, transform: 'scale(1.2)' }} transition="all 0.2s" />
-                </Link>
-                <Link href="https://abrarnafiu.com" isExternal>
-                  <Icon as={FaGlobe} w={6} h={6} color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`} _hover={{ color: `hsla(${hue.get()}, ${saturation.get()}%, 60%, 1)`, transform: 'scale(1.2)' }} transition="all 0.2s" />
-                </Link>
-                <Link href="tel:+19172936206">
-                  <Icon as={FaPhone} w={6} h={6} color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`} _hover={{ color: `hsla(${hue.get()}, ${saturation.get()}%, 60%, 1)`, transform: 'scale(1.2)' }} transition="all 0.2s" />
-                </Link>
-                <Link href="mailto:abrarnafiu@abrarnafiu.com">
-                  <Icon as={FaEnvelope} w={6} h={6} color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`} _hover={{ color: `hsla(${hue.get()}, ${saturation.get()}%, 60%, 1)`, transform: 'scale(1.2)' }} transition="all 0.2s" />
-                </Link>
-              </HStack>
-            </VStack>
-          </MotionFlex>
-          
-          {/* 3D Sphere */}
-          <MotionBox
-            display={{ base: 'none', lg: 'block' }}
-            w="500px"
-            h="500px"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            Data-driven systems.
+            <br />
+            <Text as="span" color="brand.600">
+              Built to ship.
+            </Text>
+          </Heading>
+          <Text
+            fontSize={{ base: 'lg', md: 'xl' }}
+            color="gray.600"
+            maxW="560px"
+            lineHeight={1.6}
           >
-            <Canvas>
-              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[2, 2, 2]} intensity={0.8} />
-              <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-              <Sphere args={[1, 100, 200]} scale={2.4}>
-                <MeshDistortMaterial
-                  color={`hsla(${hue.get()}, ${saturation.get()}%, 70%, 1)`}
-                  attach="material"
-                  distort={0.6}
-                  speed={1.5}
-                  roughness={0.2}
-                  metalness={0.8}
-                />
-              </Sphere>
-            </Canvas>
-          </MotionBox>
-        </Flex>
+            I'm Abrar Nafiu — a computer science student at Northeastern building products
+            with an engineering-first mindset. Python, React, TypeScript, and cloud.
+          </Text>
+          <HStack spacing={4} pt={2} flexWrap="wrap" justify={{ base: 'center', md: 'flex-start' }}>
+            <Button
+              as={Link}
+              href="/#projects"
+              colorScheme="brand"
+              size="lg"
+              rightIcon={<FaArrowRight />}
+              borderRadius="12px"
+              _hover={{ textDecoration: 'none' }}
+            >
+              View Projects
+            </Button>
+            <Button
+              as={Link}
+              href="/#contact"
+              variant="outline"
+              size="lg"
+              borderRadius="12px"
+              _hover={{ textDecoration: 'none' }}
+            >
+              Get in Touch
+            </Button>
+          </HStack>
+          <HStack spacing={5} pt={4}>
+            <Link
+              href="https://github.com/abrarnafiu"
+              isExternal
+              color="gray.500"
+              _hover={{ color: 'brand.500' }}
+              transition="color 0.2s"
+              aria-label="GitHub"
+            >
+              <FaGithub size={22} />
+            </Link>
+            <Link
+              href="https://www.linkedin.com/in/abrar-nafiu/"
+              isExternal
+              color="gray.500"
+              _hover={{ color: 'brand.500' }}
+              transition="color 0.2s"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin size={22} />
+            </Link>
+            <Link
+              href="mailto:abrarnafiu@abrarnafiu.com"
+              color="gray.500"
+              _hover={{ color: 'brand.500' }}
+              transition="color 0.2s"
+              aria-label="Email"
+            >
+              <FaEnvelope size={22} />
+            </Link>
+          </HStack>
+        </MotionVStack>
       </Container>
     </Box>
   )
-} 
+}

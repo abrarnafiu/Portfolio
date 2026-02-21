@@ -1,241 +1,206 @@
-import { Box, Container, Heading, SimpleGrid, Text, Image, Link, VStack, HStack, Badge } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { Box, Container, Heading, Text, VStack, HStack, SimpleGrid, Link, Image } from '@chakra-ui/react'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { projectList } from '../data/projects'
 import watchImage from '../assets/watchEngine.png'
 import nurtureImage from '../assets/nurtureNest.jpg'
 import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)
 
-interface ProjectCardProps {
-  id: string
-  title: string
-  description: string
-  image: string
-  technologies: string[]
-  githubUrl: string
-  liveUrl?: string
-  achievements?: string[]
+const imageMap: Record<string, string> = {
+  'watch-engine': watchImage,
+  'nurture-nest': nurtureImage,
+  'monte-carlo-simulation': pangImage,
 }
 
-const ProjectCard = ({ id, title, description, image, technologies, githubUrl, liveUrl, achievements }: ProjectCardProps) => (
-  <MotionBox
-    whileHover={{ y: -10 }}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-    <Box
-      bg="white"
-      borderRadius="xl"
-      overflow="hidden"
-      border="1px"
-      borderColor="gray.200"
-      _hover={{ 
-        borderColor: 'brand.300',
-        boxShadow: 'xl',
-        transform: 'translateY(-10px)'
-      }}
-      transition="all 0.3s"
-      position="relative"
-    >
-      <Link as={RouterLink} to={`/project/${id}`} _hover={{ textDecoration: 'none' }}>
-        <Box position="relative" h="200px" overflow="hidden">
-        <Image
-  src={image}
-  alt={title}
-  w="full"
-  h="full"
-  objectFit="contain"
-  bg="gray.50" // optional, helps if your image has transparency or awkward aspect ratio
-  p={2} // optional, adds padding so the image doesn’t look squashed
-  transition="transform 0.5s"
-  _hover={{ transform: 'scale(1.05)' }}
-/>
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+}
 
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            bgGradient="linear(to-t, blackAlpha.700, transparent)"
-            opacity={0}
-            _hover={{ opacity: 1 }}
-            transition="opacity 0.3s"
-          />
-        </Box>
-        <VStack p={6} align="start" spacing={4}>
-          <Heading size="md" color="gray.800" fontWeight="bold" _hover={{ color: 'brand.500' }} transition="color 0.2s">{title}</Heading>
-          <Text color="gray.700" fontSize="md" lineHeight="tall">{description}</Text>
-          {achievements && (
-            <VStack align="start" spacing={2} w="full">
-              {achievements.map((achievement, index) => (
-                <HStack key={index} spacing={2}>
-                  <Box w={1} h={1} borderRadius="full" bg="brand.500" />
-                  <Text color="gray.700" fontSize="sm" fontWeight="medium">
-                    {achievement}
-                  </Text>
-                </HStack>
-              ))}
-            </VStack>
-          )}
-          <HStack spacing={2} flexWrap="wrap">
-            {technologies.map((tech) => (
-              <Badge 
-                key={tech} 
-                colorScheme="brand" 
-                px={2} 
-                py={1}
-                fontSize="sm"
-                fontWeight="medium"
-                _hover={{ transform: 'translateY(-2px)', boxShadow: 'sm' }}
-                transition="all 0.2s"
-              >
-                {tech}
-              </Badge>
-            ))}
-          </HStack>
-        </VStack>
-      </Link>
-      <HStack 
-        position="absolute" 
-        bottom={4} 
-        right={4} 
-        spacing={3} 
-        opacity={0} 
-        transform="translateY(10px)"
-        _groupHover={{ opacity: 1, transform: 'translateY(0)' }}
-        transition="all 0.3s"
-        zIndex={2}
-      >
-        <Link 
-          href={githubUrl} 
-          isExternal
-          color="white"
-          bg="blackAlpha.700"
-          p={2}
-          borderRadius="full"
-          _hover={{ bg: 'blackAlpha.800', transform: 'scale(1.1)' }}
-          transition="all 0.2s"
-          onClick={(e) => e.stopPropagation()}
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+}
+
+function ProjectCard({
+  id,
+  title,
+  summary,
+  technologies,
+  metrics,
+  image,
+  githubUrl,
+  liveUrl,
+}: {
+  id: string
+  title: string
+  summary: string
+  technologies: string[]
+  metrics?: { value: string; label: string }[]
+  image: string
+  githubUrl: string
+  liveUrl?: string
+}) {
+  return (
+    <MotionBox variants={item}>
+      <Link as={RouterLink} to={`/project/${id}`} _hover={{ textDecoration: 'none' }}>
+        <Box
+          borderRadius="16px"
+          overflow="hidden"
+          bg="white"
+          border="1px solid"
+          borderColor="gray.200"
+          transition="all 0.25s ease"
+          _hover={{
+            borderColor: 'brand.300',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(99, 102, 241, 0.15)',
+            transform: 'translateY(-4px)',
+          }}
         >
-          <FaGithub size={18} />
-        </Link>
-        {liveUrl && (
-          <Link 
-            href={liveUrl} 
-            isExternal
-            color="white"
-            bg="blackAlpha.700"
-            p={2}
-            borderRadius="full"
-            _hover={{ bg: 'blackAlpha.800', transform: 'scale(1.1)' }}
-            transition="all 0.2s"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <FaExternalLinkAlt size={18} />
-          </Link>
-        )}
-      </HStack>
-    </Box>
-  </MotionBox>
-)
+          <Box position="relative" h="200px" bg="gray.50">
+            <Image
+              src={image}
+              alt={title}
+              w="full"
+              h="full"
+              objectFit="contain"
+              p={4}
+              transition="transform 0.4s ease"
+              _groupHover={{ transform: 'scale(1.03)' }}
+            />
+          </Box>
+          <VStack p={6} align="stretch" spacing={4}>
+            <Heading size="md" color="gray.900" fontWeight={600} letterSpacing="-0.01em">
+              {title}
+            </Heading>
+            <Text color="gray.600" fontSize="sm" lineHeight={1.6}>
+              {summary}
+            </Text>
+            {metrics && metrics.length > 0 && (
+              <HStack spacing={4} flexWrap="wrap">
+                {metrics.map((m, i) => (
+                  <Box key={i}>
+                    <Text as="span" fontWeight={700} color="brand.600" fontSize="sm">
+                      {m.value}
+                    </Text>
+                    <Text as="span" fontSize="xs" color="gray.500" ml={1}>
+                      {m.label}
+                    </Text>
+                  </Box>
+                ))}
+              </HStack>
+            )}
+            <HStack spacing={2} flexWrap="wrap">
+              {technologies.map((tech) => (
+                <Box
+                  key={tech}
+                  px={2.5}
+                  py={1}
+                  borderRadius="8px"
+                  bg="gray.100"
+                  fontSize="xs"
+                  fontWeight={500}
+                  color="gray.700"
+                >
+                  {tech}
+                </Box>
+              ))}
+            </HStack>
+            <HStack spacing={3} pt={2} onClick={(e: React.MouseEvent) => e.preventDefault()}>
+              <Link
+                href={githubUrl}
+                isExternal
+                fontSize="sm"
+                color="gray.500"
+                _hover={{ color: 'brand.600' }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <HStack spacing={1.5}>
+                  <FaGithub size={14} />
+                  <span>Code</span>
+                </HStack>
+              </Link>
+              {liveUrl && (
+                <Link
+                  href={liveUrl}
+                  isExternal
+                  fontSize="sm"
+                  color="gray.500"
+                  _hover={{ color: 'brand.600' }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <HStack spacing={1.5}>
+                    <FaExternalLinkAlt size={14} />
+                    <span>Live</span>
+                  </HStack>
+                </Link>
+              )}
+            </HStack>
+          </VStack>
+        </Box>
+      </Link>
+    </MotionBox>
+  )
+}
 
 export const Projects = () => {
-  const projects = [
-    {
-      id: 'watch-engine',
-      title: 'AI-Powered Watch Search Engine',
-      description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
-      image: watchImage,
-      technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API'],
-      githubUrl: 'https://github.com/abrarnafiu',
-      liveUrl: 'https://watch-engine.onrender.com/',
-      achievements: [
-        'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
-        'Ingested thousands of watches from the Watch Database API',
-        'Populated Supabase with both relational data and vector embeddings'
-      ]
-    },
-    {
-      id: 'nurture-nest',
-      title: 'Nurture Nest (Pregnancy Mental Health App)',
-      description: 'A cross-platform mobile app developed for the Innovators of Global Health Club, focusing on pregnancy mental health support.',
-      image: nurtureImage,
-      technologies: ['React Native', 'Expo', 'AsyncStorage', 'TypeScript'],
-      githubUrl: 'https://github.com/abrarnafiu',
-      achievements: [
-        'Achieved 95% crash-free user experience',
-        'Implemented mood tracking and journaling features',
-        'Increased daily user engagement by 40% over three months',
-        'Reduced app load times by 25% through AsyncStorage optimization'
-      ]
-    },
-    {
-      id: 'monte-carlo-simulation',
-      title: 'Monte Carlo Simulation for Quantitative Analysis',
-      description: 'A financial risk modeling tool using Monte Carlo simulation, featuring interactive data visualization and real-time results exploration.',
-      image: pangImage,
-      technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
-      githubUrl: 'https://github.com/abrarnafiu/PANG',
-      achievements: [
-        'Developed and optimized Monte Carlo simulation using Python',
-        'Built full-stack web application with Flask backend and React frontend',
-        'Reduced simulation time by 9% and implemented responsive design'
-      ]
-    }
-  ]
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <Box id="projects" py={20} bg="white" position="relative">
-      <Box
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        height="100%"
-        bgGradient="linear(to-b, gray.50, white)"
-        opacity={0.5}
-        zIndex={0}
-      />
-      <Container maxW="container.xl" position="relative" zIndex={1}>
-        <VStack spacing={12}>
-          <MotionBox
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Heading
-              size="2xl"
-              bgGradient="linear(to-r, brand.600, accent.600)"
-              bgClip="text"
-              textAlign="center"
-              fontWeight="extrabold"
-              letterSpacing="tight"
-            >
-              Featured Projects
-            </Heading>
-            <Text 
-              textAlign="center" 
-              color="gray.700" 
-              fontSize="lg" 
-              mt={4}
-              maxW="2xl"
-              mx="auto"
-              fontWeight="medium"
-            >
-              A collection of projects that showcase my skills and experience in software development.
-            </Text>
-          </MotionBox>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8} w="full">
-            {projects.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-          </SimpleGrid>
-        </VStack>
+    <Box py={{ base: 16, md: 24 }} bg="white">
+      <Container maxW="1200px">
+        <MotionBox
+          ref={ref}
+          variants={container}
+          initial="hidden"
+          animate={inView ? 'show' : 'hidden'}
+        >
+          <VStack align="stretch" spacing={12}>
+            <MotionBox variants={item}>
+              <Text
+                fontSize="sm"
+                fontWeight={600}
+                color="brand.600"
+                letterSpacing="0.05em"
+                textTransform="uppercase"
+                mb={2}
+              >
+                Selected work
+              </Text>
+              <Heading size="xl" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
+                Projects
+              </Heading>
+              <Text color="gray.600" mt={2} maxW="560px">
+                Case studies from full-stack apps to data pipelines and mobile — with metrics that matter.
+              </Text>
+            </MotionBox>
+
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} w="full">
+              {projectList.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  id={project.id}
+                  title={project.title}
+                  summary={project.summary}
+                  technologies={project.technologies}
+                  metrics={project.metrics}
+                  image={imageMap[project.id] || ''}
+                  githubUrl={project.githubUrl}
+                  liveUrl={project.liveUrl}
+                />
+              ))}
+            </SimpleGrid>
+          </VStack>
+        </MotionBox>
       </Container>
     </Box>
   )
-} 
+}

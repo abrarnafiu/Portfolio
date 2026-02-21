@@ -4,68 +4,81 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'gray.50',
+        bg: '#ffffff',
         color: 'gray.800',
+        fontFamily: '"Inter", system-ui, sans-serif',
       },
     },
   },
   fonts: {
-    heading: '"Plus Jakarta Sans", sans-serif',
-    body: '"Inter", sans-serif',
+    heading: '"Inter", system-ui, sans-serif',
+    body: '"Inter", system-ui, sans-serif',
   },
   colors: {
     brand: {
-      50: '#f0f9ff',
-      100: '#e0f2fe',
-      200: '#bae6fd',
-      300: '#7dd3fc',
-      400: '#38bdf8',
-      500: '#0ea5e9',
-      600: '#0284c7',
-      700: '#0369a1',
-      800: '#075985',
-      900: '#0c4a6e',
+      50: '#eef2ff',
+      100: '#e0e7ff',
+      200: '#c7d2fe',
+      300: '#a5b4fc',
+      400: '#818cf8',
+      500: '#6366f1',
+      600: '#4f46e5',
+      700: '#4338ca',
+      800: '#3730a3',
+      900: '#312e81',
     },
-    accent: {
-      50: '#fdf4ff',
-      100: '#fae8ff',
-      200: '#f5d0fe',
-      300: '#f0abfc',
-      400: '#e879f9',
-      500: '#d946ef',
-      600: '#c026d3',
-      700: '#a21caf',
-      800: '#86198f',
-      900: '#701a75',
-    },
+  },
+  radii: {
+    sm: '8px',
+    md: '12px',
+    lg: '16px',
+    xl: '20px',
+  },
+  shadows: {
+    soft: '0 2px 8px rgba(0, 0, 0, 0.04)',
+    'soft-lg': '0 4px 20px rgba(0, 0, 0, 0.06)',
+    'soft-xl': '0 8px 30px rgba(0, 0, 0, 0.08)',
+    glow: '0 0 0 1px rgba(99, 102, 241, 0.2)',
   },
   components: {
     Button: {
+      baseStyle: {
+        borderRadius: '12px',
+        fontWeight: 600,
+      },
       variants: {
         solid: {
           bg: 'brand.500',
           color: 'white',
           _hover: {
             bg: 'brand.600',
-            transform: 'translateY(-2px)',
-            boxShadow: 'lg',
+            transform: 'scale(1.02)',
+            boxShadow: '0 4px 14px rgba(99, 102, 241, 0.4)',
           },
-          _active: {
-            bg: 'brand.700',
+          _active: { bg: 'brand.700' },
+        },
+        outline: {
+          borderColor: 'gray.300',
+          color: 'gray.700',
+          _hover: {
+            borderColor: 'brand.400',
+            color: 'brand.600',
+            bg: 'brand.50',
           },
         },
       },
     },
     Heading: {
       baseStyle: {
-        fontWeight: 'bold',
+        fontWeight: 700,
         letterSpacing: '-0.02em',
+        color: 'gray.900',
       },
     },
-    Text: {
+    Link: {
       baseStyle: {
-        color: 'gray.600',
+        _hover: { textDecoration: 'none' },
       },
     },
   },
-}) 
+})
