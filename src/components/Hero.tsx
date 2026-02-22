@@ -1,15 +1,17 @@
-import { Box, Container, Text, VStack, HStack, Link, Button } from '@chakra-ui/react'
+import { Box, Container, Text, VStack, HStack, Link, Button, Flex, Image } from '@chakra-ui/react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { FaArrowRight, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import { HeroAnimatedBackground } from './AnimatedBackground'
+import heroImage from '../assets/IMG_7913.jpg'
 
 const MotionBox = motion(Box)
 const MotionVStack = motion(VStack)
 const MotionText = motion(Text)
+const MotionImage = motion(Image)
 
-const line1 = "Data-driven systems."
-const line2 = "Built to ship."
+const line1 = "Abrar Nafiu"
+const line2 = "Software Engineer"
 
 export const Hero = () => {
   const ref = useRef(null)
@@ -40,19 +42,27 @@ export const Hero = () => {
         w="100%"
       >
         <Container maxW="1200px" py={{ base: 24, md: 32 }}>
-          <MotionVStack
-            align={{ base: 'center', md: 'flex-start' }}
-            textAlign={{ base: 'center', md: 'left' }}
-            spacing={6}
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: {
-                transition: { staggerChildren: 0.08, delayChildren: 0.2 },
-              },
-              hidden: {},
-            }}
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            align="center"
+            justify="space-between"
+            gap={{ base: 10, md: 12 }}
           >
+            <MotionVStack
+              flex={1}
+              maxW={{ md: '55%' }}
+              align={{ base: 'center', md: 'flex-start' }}
+              textAlign={{ base: 'center', md: 'left' }}
+              spacing={6}
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+                },
+                hidden: {},
+              }}
+            >
             <MotionBox
               as="h1"
               fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
@@ -115,7 +125,7 @@ export const Hero = () => {
                 },
               }}
             >
-              I'm Abrar Nafiu — a computer science student at Northeastern building products
+              Hi, I'm a computer science student at Northeastern building products
               with an engineering-first mindset. Python, React, TypeScript, and cloud.
             </MotionText>
 
@@ -199,6 +209,23 @@ export const Hero = () => {
               </HStack>
             </MotionBox>
           </MotionVStack>
+
+            <MotionImage
+              src={heroImage}
+              alt="Abrar Nafiu"
+              w={{ base: '280px', sm: '340px', md: '400px', lg: '440px' }}
+              h={{ base: '280px', sm: '340px', md: '400px', lg: '440px' }}
+              objectFit="cover"
+              borderRadius="16px"
+              flexShrink={0}
+              border="4px solid"
+              borderColor="white"
+              boxShadow="0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05)"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </Flex>
         </Container>
       </MotionBox>
     </Box>

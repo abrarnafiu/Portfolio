@@ -10,17 +10,6 @@ const LINE_LEFT = 11
 
 const workExperiences = [
   {
-    company: 'NExT Consulting',
-    role: 'Software Engineering Co-op',
-    location: 'Boston, MA',
-    period: 'Dec. 2025 – Present',
-    bullets: [
-      'Built and shipped production-grade full-stack applications for external clients, designing RESTful APIs, normalized relational schemas, and cloud-deployed services used by hundreds of end users',
-      'Implemented backend services (Java/Spring Boot, Node.js) and frontend interfaces (React, TypeScript), improving feature response times by 25% through API and query optimization',
-      'Collaborated in agile, cross-functional teams to define system architecture, conduct code reviews, and ensure production-ready deployments using Git, CI/CD pipelines, and Docker',
-    ],
-  },
-  {
     company: 'Amazon',
     role: 'Junior Coder (3-year Apprenticeship Program)',
     location: 'New York, NY',
@@ -31,9 +20,29 @@ const workExperiences = [
       'Leveraged AWS (Lambda, EC2, S3, IAM) to deploy scalable services and automate CI/CD and operational workflows, cutting manual deployment time by 40%',
     ],
   },
+  {
+    company: 'NExT Consulting',
+    role: 'Software Engineering Co-op',
+    location: 'Boston, MA',
+    period: 'Dec. 2025 – Present',
+    bullets: [
+      'Built and shipped production-grade full-stack applications for external clients, designing RESTful APIs, normalized relational schemas, and cloud-deployed services used by hundreds of end users',
+      'Implemented backend services (Java/Spring Boot, Node.js) and frontend interfaces (React, TypeScript), improving feature response times by 25% through API and query optimization',
+      'Collaborated in agile, cross-functional teams to define system architecture, conduct code reviews, and ensure production-ready deployments using Git, CI/CD pipelines, and Docker',
+    ],
+  },
 ]
 
-const education = {
+const highSchool = {
+  title: 'Brooklyn Technical High School',
+  role: 'High School Diploma',
+  location: 'Brooklyn, NY',
+  period: '2020 – 2024',
+  metrics: [] as string[],
+  details: '',
+}
+
+const northeastern = {
   title: 'Northeastern University',
   role: 'B.S. Computer Science',
   location: 'Boston, MA',
@@ -73,8 +82,10 @@ export const Experience = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   const timelineEntries = [
-    ...workExperiences.map((job) => ({ type: 'work' as const, work: job })),
-    { type: 'education' as const, education },
+    { type: 'education' as const, education: highSchool },
+    { type: 'work' as const, work: workExperiences[0] },
+    { type: 'education' as const, education: northeastern },
+    { type: 'work' as const, work: workExperiences[1] },
   ]
 
   return (
@@ -217,28 +228,32 @@ export const Experience = () => {
                             <Text fontSize="sm" color="brand.600" fontWeight={600} mb={1}>
                               {entry.education.role}
                             </Text>
-                            <Text fontSize="sm" color="gray.500" mb={3}>
+                            <Text fontSize="sm" color="gray.500" mb={entry.education.metrics.length > 0 || entry.education.details ? 3 : 0}>
                               {entry.education.location}
                             </Text>
-                            <HStack spacing={3} flexWrap="wrap" mb={3}>
-                              {entry.education.metrics.map((m, j) => (
-                                <Box
-                                  key={j}
-                                  px={3}
-                                  py={1}
-                                  borderRadius="full"
-                                  bg="gray.100"
-                                  fontSize="xs"
-                                  fontWeight={600}
-                                  color="gray.700"
-                                >
-                                  {m}
-                                </Box>
-                              ))}
-                            </HStack>
-                            <Text fontSize="sm" color="gray.600" lineHeight={1.6}>
-                              {entry.education.details}
-                            </Text>
+                            {entry.education.metrics.length > 0 && (
+                              <HStack spacing={3} flexWrap="wrap" mb={3}>
+                                {entry.education.metrics.map((m, j) => (
+                                  <Box
+                                    key={j}
+                                    px={3}
+                                    py={1}
+                                    borderRadius="full"
+                                    bg="gray.100"
+                                    fontSize="xs"
+                                    fontWeight={600}
+                                    color="gray.700"
+                                  >
+                                    {m}
+                                  </Box>
+                                ))}
+                              </HStack>
+                            )}
+                            {entry.education.details && (
+                              <Text fontSize="sm" color="gray.600" lineHeight={1.6}>
+                                {entry.education.details}
+                              </Text>
+                            )}
                           </>
                         )}
                       </MotionBox>
