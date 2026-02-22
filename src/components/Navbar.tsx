@@ -36,12 +36,13 @@ export const Navbar: React.FC = () => {
       zIndex={100}
       initial={false}
       animate={{
-        backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.85)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+        backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.9)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
         borderBottom: scrolled ? '1px solid' : '1px solid transparent',
         borderColor: 'gray.200',
+        boxShadow: scrolled ? '0 4px 24px rgba(0, 0, 0, 0.06)' : 'none',
       }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <Flex
         maxW="1200px"
@@ -51,47 +52,56 @@ export const Navbar: React.FC = () => {
         justify="space-between"
         align="center"
       >
-        <Link href="/" _hover={{ textDecoration: 'none' }}>
-          <Text
-            fontSize="lg"
-            fontWeight={700}
-            color="gray.900"
-            letterSpacing="-0.02em"
-            _hover={{ color: 'brand.500' }}
-            transition="color 0.2s"
-          >
-            Abrar Nafiu
-          </Text>
-        </Link>
+        <MotionBox whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Link href="/" _hover={{ textDecoration: 'none' }}>
+            <Text
+              fontSize="lg"
+              fontWeight={700}
+              color="gray.900"
+              letterSpacing="-0.02em"
+              _hover={{ color: 'brand.500' }}
+              transition="color 0.2s"
+            >
+              Abrar Nafiu
+            </Text>
+          </Link>
+        </MotionBox>
 
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
-          {navItems.map((item) => (
-            <Box
+          {navItems.map((item, i) => (
+            <MotionBox
               key={item.id}
-              as="button"
-              onClick={() => scrollTo(item.id)}
-              color="gray.600"
-              fontWeight={500}
-              fontSize="sm"
-              _hover={{ color: 'brand.600' }}
-              transition="color 0.2s"
-              cursor="pointer"
-              position="relative"
-              pb={1}
-              role="group"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.04 }}
             >
-              {item.label}
               <Box
-                position="absolute"
-                left={0}
-                bottom={0}
-                h="2px"
-                bg="brand.500"
-                w="0"
-                transition="width 0.2s ease"
-                _groupHover={{ w: '100%' }}
-              />
-            </Box>
+                as="button"
+                onClick={() => scrollTo(item.id)}
+                color="gray.600"
+                fontWeight={500}
+                fontSize="sm"
+                _hover={{ color: 'brand.600' }}
+                transition="color 0.2s"
+                cursor="pointer"
+                position="relative"
+                pb={1}
+                role="group"
+              >
+                {item.label}
+                <MotionBox
+                  position="absolute"
+                  left={0}
+                  bottom={0}
+                  h="2px"
+                  bg="brand.500"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: '100%' }}
+                  transition={{ duration: 0.2 }}
+                  style={{ originX: 0 }}
+                />
+              </Box>
+            </MotionBox>
           ))}
         </HStack>
       </Flex>

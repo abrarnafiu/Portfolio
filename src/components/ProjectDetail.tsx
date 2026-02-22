@@ -18,7 +18,7 @@ import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheckCircle, FaLightbulb, F
 import { useParams, Link as RouterLink } from 'react-router-dom'
 import { projectList } from '../data/projects'
 import watchImage from '../assets/watchEngine.png'
-import nurtureImage from '../assets/nurtureNest.jpg'
+import nurtureImage from '../assets/nurtureNest.png'
 import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)

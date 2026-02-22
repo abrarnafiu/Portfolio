@@ -1,14 +1,15 @@
 import { Box, Container, Heading, Text, VStack, HStack, SimpleGrid, Link, Image } from '@chakra-ui/react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { projectList } from '../data/projects'
 import watchImage from '../assets/watchEngine.png'
-import nurtureImage from '../assets/nurtureNest.jpg'
+import nurtureImage from '../assets/nurtureNest.png'
 import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)
+const MotionImage = motion(Image)
 
 const imageMap: Record<string, string> = {
   'watch-engine': watchImage,
@@ -20,13 +21,17 @@ const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
 }
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 32 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 }
 
 function ProjectCard({
@@ -48,32 +53,64 @@ function ProjectCard({
   githubUrl: string
   liveUrl?: string
 }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const springConfig = { stiffness: 300, damping: 30 }
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), springConfig)
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), springConfig)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    const xPct = mouseX / width - 0.5
+    const yPct = mouseY / height - 0.5
+    x.set(xPct)
+    y.set(yPct)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
   return (
     <MotionBox variants={item}>
       <Link as={RouterLink} to={`/project/${id}`} _hover={{ textDecoration: 'none' }}>
-        <Box
+        <MotionBox
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           borderRadius="16px"
           overflow="hidden"
           bg="white"
           border="1px solid"
           borderColor="gray.200"
-          transition="all 0.25s ease"
-          _hover={{
-            borderColor: 'brand.300',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(99, 102, 241, 0.15)',
-            transform: 'translateY(-4px)',
+          style={{
+            rotateX,
+            rotateY,
+            transformPerspective: 1000,
           }}
+          whileHover={{
+            y: -8,
+            boxShadow: '0 24px 60px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(99, 102, 241, 0.1)',
+            borderColor: 'brand.300',
+          }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         >
-          <Box position="relative" h="200px" bg="gray.50">
-            <Image
+          <Box position="relative" h="200px" bg="gray.100" overflow="hidden">
+            <MotionImage
               src={image}
               alt={title}
               w="full"
               h="full"
-              objectFit="contain"
-              p={4}
-              transition="transform 0.4s ease"
-              _groupHover={{ transform: 'scale(1.03)' }}
+              objectFit="cover"
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             />
           </Box>
           <VStack p={6} align="stretch" spacing={4}>
@@ -144,7 +181,7 @@ function ProjectCard({
               )}
             </HStack>
           </VStack>
-        </Box>
+        </MotionBox>
       </Link>
     </MotionBox>
   )
@@ -155,8 +192,14 @@ export const Projects = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <Box py={{ base: 16, md: 24 }} bg="white">
-      <Container maxW="1200px">
+    <Box py={{ base: 16, md: 24 }} bg="white" position="relative" overflow="hidden">
+      <Box
+        position="absolute"
+        inset={0}
+        backgroundImage="radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99, 102, 241, 0.06), transparent 60%)"
+        pointerEvents="none"
+      />
+      <Container maxW="1200px" position="relative" zIndex={1}>
         <MotionBox
           ref={ref}
           variants={container}

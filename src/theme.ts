@@ -3,10 +3,14 @@ import { extendTheme } from '@chakra-ui/react'
 export const theme = extendTheme({
   styles: {
     global: {
+      'html': {
+        scrollBehavior: 'smooth',
+      },
       body: {
         bg: '#ffffff',
         color: 'gray.800',
         fontFamily: '"Inter", system-ui, sans-serif',
+        overflowX: 'hidden',
       },
     },
   },

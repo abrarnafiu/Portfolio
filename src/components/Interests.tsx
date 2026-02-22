@@ -78,17 +78,20 @@ function SpotifyCard({ apiUrl }: { apiUrl: string }) {
       _hover={{ textDecoration: 'none' }}
       display="block"
     >
-      <Box
+      <MotionBox
         p={5}
         borderRadius="16px"
         border="1px solid"
         borderColor="gray.200"
         bg="white"
-        transition="all 0.25s ease"
-        _hover={{
-          borderColor: 'brand.200',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
+        whileHover={{
+          y: -4,
+          boxShadow: hasTrack
+            ? '0 16px 40px rgba(29, 185, 84, 0.15)'
+            : '0 12px 32px rgba(0, 0, 0, 0.08)',
+          borderColor: 'brand.300',
         }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       >
         <HStack spacing={4}>
           {hasTrack && data.albumArt ? (
@@ -134,7 +137,7 @@ function SpotifyCard({ apiUrl }: { apiUrl: string }) {
           </VStack>
           <SiSpotify size={20} color="#1DB954" />
         </HStack>
-      </Box>
+      </MotionBox>
     </Link>
   )
 }
@@ -157,9 +160,24 @@ export const Interests = () => {
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const spotifyApiUrl = import.meta.env.VITE_SPOTIFY_NOW_PLAYING_URL || ''
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 24 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    },
+  }
+
   return (
-    <Box py={{ base: 16, md: 24 }} bg="white">
-      <Container maxW="1200px">
+    <Box py={{ base: 16, md: 24 }} bg="white" position="relative" overflow="hidden">
+      <Box
+        position="absolute"
+        inset={0}
+        backgroundImage="radial-gradient(ellipse 70% 40% at 50% 50%, rgba(99, 102, 241, 0.05), transparent 60%)"
+        pointerEvents="none"
+      />
+      <Container maxW="1200px" position="relative" zIndex={1}>
         <MotionBox
           ref={ref}
           variants={container}
@@ -188,7 +206,13 @@ export const Interests = () => {
 
             <HStack align="stretch" spacing={6} flexWrap="wrap">
               {/* Chelsea */}
-              <MotionBox variants={item} flex={{ base: '1 1 100%', md: '1 1 200px' }} minW={0}>
+              <MotionBox
+                variants={cardVariants}
+                flex={{ base: '1 1 100%', md: '1 1 200px' }}
+                minW={0}
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+              >
                 <Link
                   href="https://www.chelseafc.com"
                   isExternal
@@ -196,21 +220,21 @@ export const Interests = () => {
                   display="block"
                   h="full"
                 >
-                  <Box
+                  <MotionBox
                     p={5}
                     borderRadius="16px"
                     border="1px solid"
                     borderColor="gray.200"
                     bg="white"
                     h="full"
-                    transition="all 0.25s ease"
-                    _hover={{
+                    whileHover={{
+                      boxShadow: '0 20px 50px rgba(3, 70, 148, 0.2)',
                       borderColor: '#034694',
-                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
                     }}
+                    transition={{ duration: 0.3 }}
                   >
                     <HStack spacing={4}>
-                      <Box
+                      <MotionBox
                         w="56px"
                         h="56px"
                         borderRadius="12px"
@@ -218,9 +242,10 @@ export const Interests = () => {
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        whileHover={{ rotate: 5, transition: { duration: 0.3 } }}
                       >
                         <FaFutbol size={28} color="white" />
-                      </Box>
+                      </MotionBox>
                       <VStack align="flex-start" spacing={0}>
                         <Text fontSize="xs" color="gray.500" fontWeight={600}>
                           Soccer
@@ -230,12 +255,18 @@ export const Interests = () => {
                         </Text>
                       </VStack>
                     </HStack>
-                  </Box>
+                  </MotionBox>
                 </Link>
               </MotionBox>
 
               {/* Knicks */}
-              <MotionBox variants={item} flex={{ base: '1 1 100%', md: '1 1 200px' }} minW={0}>
+              <MotionBox
+                variants={cardVariants}
+                flex={{ base: '1 1 100%', md: '1 1 200px' }}
+                minW={0}
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+              >
                 <Link
                   href="https://www.nba.com/knicks"
                   isExternal
@@ -243,21 +274,21 @@ export const Interests = () => {
                   display="block"
                   h="full"
                 >
-                  <Box
+                  <MotionBox
                     p={5}
                     borderRadius="16px"
                     border="1px solid"
                     borderColor="gray.200"
                     bg="white"
                     h="full"
-                    transition="all 0.25s ease"
-                    _hover={{
+                    whileHover={{
+                      boxShadow: '0 20px 50px rgba(245, 132, 38, 0.2)',
                       borderColor: '#F58426',
-                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
                     }}
+                    transition={{ duration: 0.3 }}
                   >
                     <HStack spacing={4}>
-                      <Box
+                      <MotionBox
                         w="56px"
                         h="56px"
                         borderRadius="12px"
@@ -265,9 +296,10 @@ export const Interests = () => {
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        whileHover={{ rotate: -5, transition: { duration: 0.3 } }}
                       >
                         <FaBasketballBall size={28} color="white" />
-                      </Box>
+                      </MotionBox>
                       <VStack align="flex-start" spacing={0}>
                         <Text fontSize="xs" color="gray.500" fontWeight={600}>
                           Basketball
@@ -277,12 +309,12 @@ export const Interests = () => {
                         </Text>
                       </VStack>
                     </HStack>
-                  </Box>
+                  </MotionBox>
                 </Link>
               </MotionBox>
 
-              {/* Spotify - takes remaining space or full row on small */}
-              <MotionBox variants={item} flex={{ base: '1 1 100%', md: '1 1 280px' }} minW={0}>
+              {/* Spotify */}
+              <MotionBox variants={cardVariants} flex={{ base: '1 1 100%', md: '1 1 280px' }} minW={0}>
                 {spotifyApiUrl ? (
                   <SpotifyCard apiUrl={spotifyApiUrl} />
                 ) : (
