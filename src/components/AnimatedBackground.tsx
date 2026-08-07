@@ -1,80 +1,60 @@
 import { Box } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
+import { colors } from '../theme'
 
-const MotionBox = motion(Box)
-
-export function HeroAnimatedBackground() {
+/** Diagonal stripe texture — bodega awning / campaign poster energy */
+export function StripeField({
+  color = colors.ink,
+  opacity = 0.07,
+}: {
+  color?: string
+  opacity?: number
+}) {
   return (
-    <>
-      {/* Animated gradient orbs */}
-      <MotionBox
-        position="absolute"
-        top="-30%"
-        right="-15%"
-        w="700px"
-        h="700px"
-        borderRadius="full"
-        bg="linear-gradient(135deg, #6366f1 0%, #818cf8 50%, #a5b4fc 100%)"
-        opacity={0.25}
-        filter="blur(100px)"
-        pointerEvents="none"
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 30, 0],
-          y: [0, -20, 0],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <MotionBox
-        position="absolute"
-        bottom="-20%"
-        left="-10%"
-        w="500px"
-        h="500px"
-        borderRadius="full"
-        bg="linear-gradient(225deg, #4f46e5 0%, #6366f1 100%)"
-        opacity={0.2}
-        filter="blur(80px)"
-        pointerEvents="none"
-        animate={{
-          scale: [1.1, 1, 1.1],
-          x: [0, -40, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <MotionBox
-        position="absolute"
-        top="40%"
-        left="50%"
-        w="400px"
-        h="400px"
-        borderRadius="full"
-        bg="linear-gradient(180deg, #c7d2fe 0%, transparent 70%)"
-        opacity={0.3}
-        filter="blur(60px)"
-        pointerEvents="none"
-        animate={{ opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      {/* Subtle grid */}
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px)"
-        backgroundSize="60px 60px"
-        pointerEvents="none"
-      />
-    </>
+    <Box
+      position="absolute"
+      inset={0}
+      pointerEvents="none"
+      opacity={opacity}
+      backgroundImage={`repeating-linear-gradient(
+        -45deg,
+        ${color},
+        ${color} 2px,
+        transparent 2px,
+        transparent 14px
+      )`}
+    />
   )
 }
 
-export function SectionAnimatedBackground() {
+/** Hard color blotches instead of soft purple orbs */
+export function HeroPosterBackdrop() {
   return (
-    <MotionBox
-      position="absolute"
-      inset={0}
-      backgroundImage="radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.08), transparent)"
-      pointerEvents="none"
-    />
+    <>
+      <Box
+        position="absolute"
+        top={{ base: '8%', md: '12%' }}
+        right={{ base: '-8%', md: '4%' }}
+        w={{ base: '180px', md: '280px' }}
+        h={{ base: '180px', md: '280px' }}
+        bg={colors.yellow}
+        border={`3px solid ${colors.ink}`}
+        transform="rotate(8deg)"
+        pointerEvents="none"
+        zIndex={0}
+      />
+      <Box
+        position="absolute"
+        bottom={{ base: '6%', md: '10%' }}
+        left={{ base: '-6%', md: '6%' }}
+        w={{ base: '120px', md: '200px' }}
+        h={{ base: '120px', md: '200px' }}
+        bg={colors.red}
+        border={`3px solid ${colors.ink}`}
+        transform="rotate(-6deg)"
+        pointerEvents="none"
+        zIndex={0}
+      />
+      <StripeField color={colors.ink} opacity={0.06} />
+    </>
   )
 }

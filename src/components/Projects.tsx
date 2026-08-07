@@ -1,15 +1,25 @@
-import { Box, Container, Heading, Text, VStack, HStack, SimpleGrid, Link, Image } from '@chakra-ui/react'
-import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Link,
+  Image,
+  Flex,
+} from '@chakra-ui/react'
+import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa'
 import { projectList } from '../data/projects'
+import { colors } from '../theme'
 import watchImage from '../assets/watchEngine.png'
 import nurtureImage from '../assets/nurtureNest.png'
 import pangImage from '../assets/PANG.png'
 
 const MotionBox = motion(Box)
-const MotionImage = motion(Image)
 
 const imageMap: Record<string, string> = {
   'watch-engine': watchImage,
@@ -17,233 +27,233 @@ const imageMap: Record<string, string> = {
   'monte-carlo-simulation': pangImage,
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 32 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
-function ProjectCard({
-  id,
-  title,
-  summary,
-  technologies,
-  metrics,
-  image,
-  githubUrl,
-  liveUrl,
-}: {
-  id: string
-  title: string
-  summary: string
-  technologies: string[]
-  metrics?: { value: string; label: string }[]
-  image: string
-  githubUrl: string
-  liveUrl?: string
-}) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const springConfig = { stiffness: 300, damping: 30 }
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), springConfig)
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), springConfig)
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-    const xPct = mouseX / width - 0.5
-    const yPct = mouseY / height - 0.5
-    x.set(xPct)
-    y.set(yPct)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
-  return (
-    <MotionBox variants={item}>
-      <Link as={RouterLink} to={`/project/${id}`} _hover={{ textDecoration: 'none' }}>
-        <MotionBox
-          ref={cardRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          borderRadius="16px"
-          overflow="hidden"
-          bg="white"
-          border="1px solid"
-          borderColor="gray.200"
-          style={{
-            rotateX,
-            rotateY,
-            transformPerspective: 1000,
-          }}
-          whileHover={{
-            y: -8,
-            boxShadow: '0 24px 60px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(99, 102, 241, 0.1)',
-            borderColor: 'brand.300',
-          }}
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-        >
-          <Box position="relative" h="200px" bg="gray.100" overflow="hidden">
-            <MotionImage
-              src={image}
-              alt={title}
-              w="full"
-              h="full"
-              objectFit="cover"
-              whileHover={{ scale: 1.08 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </Box>
-          <VStack p={6} align="stretch" spacing={4}>
-            <Heading size="md" color="gray.900" fontWeight={600} letterSpacing="-0.01em">
-              {title}
-            </Heading>
-            <Text color="gray.600" fontSize="sm" lineHeight={1.6}>
-              {summary}
-            </Text>
-            {metrics && metrics.length > 0 && (
-              <HStack spacing={4} flexWrap="wrap">
-                {metrics.map((m, i) => (
-                  <Box key={i}>
-                    <Text as="span" fontWeight={700} color="brand.600" fontSize="sm">
-                      {m.value}
-                    </Text>
-                    <Text as="span" fontSize="xs" color="gray.500" ml={1}>
-                      {m.label}
-                    </Text>
-                  </Box>
-                ))}
-              </HStack>
-            )}
-            <HStack spacing={2} flexWrap="wrap">
-              {technologies.map((tech) => (
-                <Box
-                  key={tech}
-                  px={2.5}
-                  py={1}
-                  borderRadius="8px"
-                  bg="gray.100"
-                  fontSize="xs"
-                  fontWeight={500}
-                  color="gray.700"
-                >
-                  {tech}
-                </Box>
-              ))}
-            </HStack>
-            <HStack spacing={3} pt={2} onClick={(e: React.MouseEvent) => e.preventDefault()}>
-              <Link
-                href={githubUrl}
-                isExternal
-                fontSize="sm"
-                color="gray.500"
-                _hover={{ color: 'brand.600' }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <HStack spacing={1.5}>
-                  <FaGithub size={14} />
-                  <span>Code</span>
-                </HStack>
-              </Link>
-              {liveUrl && (
-                <Link
-                  href={liveUrl}
-                  isExternal
-                  fontSize="sm"
-                  color="gray.500"
-                  _hover={{ color: 'brand.600' }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <HStack spacing={1.5}>
-                    <FaExternalLinkAlt size={14} />
-                    <span>Live</span>
-                  </HStack>
-                </Link>
-              )}
-            </HStack>
-          </VStack>
-        </MotionBox>
-      </Link>
-    </MotionBox>
-  )
-}
+const bandColors = [colors.yellow, colors.paper, colors.red]
+const bandText = [colors.ink, colors.ink, colors.paper]
 
 export const Projects = () => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <Box py={{ base: 16, md: 24 }} bg="white" position="relative" overflow="hidden">
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99, 102, 241, 0.06), transparent 60%)"
-        pointerEvents="none"
-      />
-      <Container maxW="1200px" position="relative" zIndex={1}>
+    <Box
+      as="section"
+      aria-labelledby="projects-heading"
+      bg={colors.paper}
+      borderBottom={`4px solid ${colors.ink}`}
+    >
+      <Container maxW="1240px" px={{ base: 4, md: 8 }} pt={{ base: 16, md: 24 }} pb={8}>
         <MotionBox
           ref={ref}
-          variants={container}
-          initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.45 }}
         >
-          <VStack align="stretch" spacing={12}>
-            <MotionBox variants={item}>
-              <Text
-                fontSize="sm"
-                fontWeight={600}
-                color="brand.600"
-                letterSpacing="0.05em"
-                textTransform="uppercase"
-                mb={2}
-              >
-                Selected work
-              </Text>
-              <Heading size="xl" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
-                Projects
-              </Heading>
-              <Text color="gray.600" mt={2} maxW="560px">
-                Case studies from full-stack apps to data pipelines and mobile — with metrics that matter.
-              </Text>
-            </MotionBox>
-
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} w="full">
-              {projectList.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  id={project.id}
-                  title={project.title}
-                  summary={project.summary}
-                  technologies={project.technologies}
-                  metrics={project.metrics}
-                  image={imageMap[project.id] || ''}
-                  githubUrl={project.githubUrl}
-                  liveUrl={project.liveUrl}
-                />
-              ))}
-            </SimpleGrid>
-          </VStack>
+          <Text
+            fontFamily="condensed"
+            fontWeight={700}
+            letterSpacing="0.14em"
+            textTransform="uppercase"
+            fontSize="sm"
+            color={colors.red}
+            mb={2}
+          >
+            04 — Selected Work
+          </Text>
+          <Heading
+            as="h2"
+            id="projects-heading"
+            fontSize={{ base: '3xl', md: '5xl' }}
+            textShadow={`4px 4px 0 ${colors.yellow}`}
+            lineHeight={1.05}
+          >
+            PROJECTS
+          </Heading>
+          <Text color={colors.muted} mt={3} maxW="560px" fontSize="lg">
+            Case studies from full-stack apps to data pipelines and mobile — with metrics that
+            matter.
+          </Text>
         </MotionBox>
       </Container>
+
+      <VStack spacing={0} align="stretch">
+        {projectList.map((project, i) => {
+          const bg = bandColors[i % bandColors.length]
+          const fg = bandText[i % bandText.length]
+          const image = imageMap[project.id]
+          const flip = i % 2 === 1
+
+          return (
+            <MotionBox
+              key={project.id}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.45, delay: 0.1 * i }}
+              bg={bg}
+              color={fg}
+              borderTop={`3px solid ${colors.ink}`}
+            >
+              <Container maxW="1240px" px={{ base: 4, md: 8 }} py={{ base: 10, md: 14 }}>
+                <Flex
+                  direction={{
+                    base: 'column',
+                    md: flip ? 'row-reverse' : 'row',
+                  }}
+                  gap={{ base: 8, md: 12 }}
+                  align="center"
+                >
+                  <Box
+                    flex={1}
+                    position="relative"
+                    w="full"
+                    maxW={{ md: '480px' }}
+                  >
+                    <Box
+                      position="absolute"
+                      inset={0}
+                      transform="translate(8px, 8px)"
+                      bg={fg === colors.paper ? colors.yellow : colors.ink}
+                      border={`3px solid ${colors.ink}`}
+                    />
+                    <Image
+                      src={image}
+                      alt={project.title}
+                      w="full"
+                      h={{ base: '200px', md: '260px' }}
+                      objectFit="cover"
+                      border={`3px solid ${colors.ink}`}
+                      position="relative"
+                      bg={colors.paper}
+                    />
+                  </Box>
+
+                  <VStack flex={1} align="flex-start" spacing={4}>
+                    <Text
+                      fontFamily="condensed"
+                      fontWeight={800}
+                      fontSize="sm"
+                      letterSpacing="0.14em"
+                      textTransform="uppercase"
+                      opacity={0.8}
+                    >
+                      Project {String(i + 1).padStart(2, '0')}
+                    </Text>
+                    <Heading as="h3" fontSize={{ base: '2xl', md: '3xl' }} lineHeight={1.1}>
+                      {project.title}
+                    </Heading>
+                    <Text fontSize="md" lineHeight={1.55} opacity={0.95}>
+                      {project.summary}
+                    </Text>
+
+                    {project.metrics && project.metrics.length > 0 && (
+                      <HStack spacing={3} flexWrap="wrap">
+                        {project.metrics.map((m) => (
+                          <Box
+                            key={m.label}
+                            px={3}
+                            py={2}
+                            border={`2px solid ${fg}`}
+                            bg={fg === colors.paper ? 'rgba(0,0,0,0.15)' : 'transparent'}
+                          >
+                            <Text
+                              fontFamily="condensed"
+                              fontWeight={800}
+                              fontSize="lg"
+                              letterSpacing="0.04em"
+                              lineHeight={1}
+                            >
+                              {m.value}
+                            </Text>
+                            <Text
+                              fontFamily="condensed"
+                              fontSize="xs"
+                              letterSpacing="0.08em"
+                              textTransform="uppercase"
+                              opacity={0.8}
+                            >
+                              {m.label}
+                            </Text>
+                          </Box>
+                        ))}
+                      </HStack>
+                    )}
+
+                    <HStack spacing={2} flexWrap="wrap">
+                      {project.technologies.map((tech) => (
+                        <Box
+                          key={tech}
+                          px={2}
+                          py={0.5}
+                          border={`2px solid ${fg}`}
+                          fontFamily="condensed"
+                          fontWeight={700}
+                          fontSize="sm"
+                          letterSpacing="0.05em"
+                          textTransform="uppercase"
+                        >
+                          {tech}
+                        </Box>
+                      ))}
+                    </HStack>
+
+                    <HStack spacing={4} pt={2} flexWrap="wrap">
+                      <Link
+                        as={RouterLink}
+                        to={`/project/${project.id}`}
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={2}
+                        fontFamily="condensed"
+                        fontWeight={800}
+                        letterSpacing="0.08em"
+                        textTransform="uppercase"
+                        borderBottom={`3px solid ${fg}`}
+                        pb={0.5}
+                        _hover={{ opacity: 0.75 }}
+                      >
+                        Case study <FaArrowRight size={12} />
+                      </Link>
+                      <Link
+                        href={project.githubUrl}
+                        isExternal
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={2}
+                        fontFamily="condensed"
+                        fontWeight={700}
+                        letterSpacing="0.06em"
+                        textTransform="uppercase"
+                        fontSize="sm"
+                        opacity={0.85}
+                        _hover={{ opacity: 1 }}
+                      >
+                        <FaGithub size={14} /> Code
+                      </Link>
+                      {project.liveUrl && (
+                        <Link
+                          href={project.liveUrl}
+                          isExternal
+                          display="inline-flex"
+                          alignItems="center"
+                          gap={2}
+                          fontFamily="condensed"
+                          fontWeight={700}
+                          letterSpacing="0.06em"
+                          textTransform="uppercase"
+                          fontSize="sm"
+                          opacity={0.85}
+                          _hover={{ opacity: 1 }}
+                        >
+                          <FaExternalLinkAlt size={12} /> Live
+                        </Link>
+                      )}
+                    </HStack>
+                  </VStack>
+                </Flex>
+              </Container>
+            </MotionBox>
+          )
+        })}
+      </VStack>
     </Box>
   )
 }

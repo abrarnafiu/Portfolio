@@ -10,13 +10,16 @@ import {
   Button,
   List,
   ListItem,
-  ListIcon,
   SimpleGrid,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCheckCircle, FaLightbulb, FaTools } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from 'react-icons/fa'
 import { useParams, Link as RouterLink } from 'react-router-dom'
+import { useMemo } from 'react'
 import { projectList } from '../data/projects'
+import { colors } from '../theme'
+import { useSeo } from '../seo/useSeo'
+import { projectJsonLd } from '../seo/jsonLd'
 import watchImage from '../assets/watchEngine.png'
 import nurtureImage from '../assets/nurtureNest.png'
 import pangImage from '../assets/PANG.png'
@@ -34,22 +37,38 @@ export const ProjectDetail = () => {
   const project = projectList.find((p) => p.id === projectId)
   const image = project ? imageMap[project.id] : null
 
+  const jsonLd = useMemo(
+    () => (projectId ? projectJsonLd(projectId) : null),
+    [projectId],
+  )
+
+  useSeo(
+    project
+      ? {
+          title: project.title,
+          description: project.description,
+          path: `/project/${project.id}`,
+          type: 'article',
+          jsonLd: jsonLd ?? undefined,
+        }
+      : {
+          title: 'Project not found',
+          description: 'The requested project could not be found.',
+          path: `/project/${projectId || ''}`,
+          noindex: true,
+        },
+  )
+
   if (!project) {
     return (
-      <Box bg="gray.50" minH="100vh" py={20}>
-        <Container maxW="800px">
-          <VStack spacing={8} align="center">
-            <Heading size="xl" color="gray.900">
-              Project not found
+      <Box as="main" id="main-content" bg={colors.paper} minH="100vh">
+        <Container maxW="800px" py={28}>
+          <VStack spacing={6} align="flex-start">
+            <Heading as="h1" fontSize="4xl" textShadow={`4px 4px 0 ${colors.yellow}`}>
+              PROJECT NOT FOUND
             </Heading>
-            <Text color="gray.600">The project you're looking for doesn't exist.</Text>
-            <Button
-              as={RouterLink}
-              to="/#projects"
-              leftIcon={<FaArrowLeft />}
-              colorScheme="brand"
-              borderRadius="12px"
-            >
+            <Text color={colors.muted}>The project you&apos;re looking for doesn&apos;t exist.</Text>
+            <Button as={RouterLink} to="/#projects" leftIcon={<FaArrowLeft />}>
               Back to projects
             </Button>
           </VStack>
@@ -59,45 +78,51 @@ export const ProjectDetail = () => {
   }
 
   return (
-    <Box bg="gray.50" minH="100vh" py={{ base: 24, md: 20 }}>
-      <Container maxW="800px">
-        <Button
-          as={RouterLink}
-          to="/#projects"
-          leftIcon={<FaArrowLeft />}
-          variant="ghost"
-          size="sm"
-          color="gray.600"
-          mb={8}
-          _hover={{ bg: 'gray.100', color: 'gray.800' }}
-          borderRadius="8px"
-        >
-          Back to projects
-        </Button>
-
-        <MotionBox
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <VStack align="stretch" spacing={8}>
-            <VStack align="stretch" spacing={4}>
-              <Heading size="xl" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
-                {project.title}
+    <Box as="main" id="main-content" bg={colors.paper} minH="100vh">
+      <Box as="article">
+        <Box bg={colors.blue} borderBottom={`4px solid ${colors.ink}`} pt={24} pb={12}>
+          <Container maxW="900px" px={{ base: 4, md: 8 }}>
+            <Button
+              as={RouterLink}
+              to="/#projects"
+              leftIcon={<FaArrowLeft />}
+              size="sm"
+              mb={8}
+              bg={colors.yellow}
+              color={colors.ink}
+              border={`2px solid ${colors.ink}`}
+              boxShadow={`3px 3px 0 ${colors.ink}`}
+              _hover={{ textDecoration: 'none', bg: colors.yellowHot }}
+            >
+              Back to projects
+            </Button>
+            <MotionBox initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+              <Heading
+                as="h1"
+                fontSize={{ base: '3xl', md: '5xl' }}
+                color={colors.paper}
+                textShadow={`5px 5px 0 ${colors.ink}`}
+                lineHeight={1.05}
+                mb={4}
+              >
+                {project.title.toUpperCase()}
               </Heading>
-              <Text color="gray.600" fontSize="lg" lineHeight={1.6}>
+              <Text color={colors.paper} fontSize="lg" maxW="640px" opacity={0.95} lineHeight={1.55}>
                 {project.description}
               </Text>
-              <HStack spacing={3} flexWrap="wrap">
+              <HStack spacing={3} flexWrap="wrap" mt={6}>
                 {project.role && (
                   <Box
                     px={3}
                     py={1}
-                    borderRadius="full"
-                    bg="brand.50"
+                    bg={colors.yellow}
+                    color={colors.ink}
+                    border={`2px solid ${colors.ink}`}
+                    fontFamily="condensed"
+                    fontWeight={800}
+                    letterSpacing="0.08em"
+                    textTransform="uppercase"
                     fontSize="sm"
-                    fontWeight={600}
-                    color="brand.700"
                   >
                     {project.role}
                   </Box>
@@ -106,92 +131,106 @@ export const ProjectDetail = () => {
                   <Box
                     px={3}
                     py={1}
-                    borderRadius="full"
-                    bg="gray.200"
+                    bg={colors.paper}
+                    color={colors.ink}
+                    border={`2px solid ${colors.ink}`}
+                    fontFamily="condensed"
+                    fontWeight={700}
+                    letterSpacing="0.08em"
+                    textTransform="uppercase"
                     fontSize="sm"
-                    fontWeight={500}
-                    color="gray.700"
                   >
                     {project.duration}
                   </Box>
                 )}
               </HStack>
-              <HStack spacing={4}>
+              <HStack spacing={5} mt={6}>
                 <Link
                   href={project.githubUrl}
                   isExternal
-                  color="brand.600"
-                  fontWeight={500}
-                  fontSize="sm"
-                  _hover={{ color: 'brand.700' }}
+                  color={colors.yellow}
+                  fontFamily="condensed"
+                  fontWeight={800}
+                  letterSpacing="0.08em"
+                  textTransform="uppercase"
+                  display="inline-flex"
+                  alignItems="center"
+                  gap={2}
                 >
-                  <HStack spacing={2}>
-                    <FaGithub size={16} />
-                    <span>GitHub</span>
-                  </HStack>
+                  <FaGithub /> GitHub
                 </Link>
                 {project.liveUrl && (
                   <Link
                     href={project.liveUrl}
                     isExternal
-                    color="brand.600"
-                    fontWeight={500}
-                    fontSize="sm"
-                    _hover={{ color: 'brand.700' }}
+                    color={colors.yellow}
+                    fontFamily="condensed"
+                    fontWeight={800}
+                    letterSpacing="0.08em"
+                    textTransform="uppercase"
+                    display="inline-flex"
+                    alignItems="center"
+                    gap={2}
                   >
-                    <HStack spacing={2}>
-                      <FaExternalLinkAlt size={14} />
-                      <span>Live demo</span>
-                    </HStack>
+                    <FaExternalLinkAlt size={12} /> Live demo
                   </Link>
                 )}
               </HStack>
-            </VStack>
+            </MotionBox>
+          </Container>
+        </Box>
 
+        <Container maxW="900px" px={{ base: 4, md: 8 }} py={{ base: 12, md: 16 }}>
+          <VStack align="stretch" spacing={10}>
             {image && (
-              <Box
-                borderRadius="16px"
-                overflow="hidden"
-                bg="white"
-                border="1px solid"
-                borderColor="gray.200"
-                boxShadow="0 4px 20px rgba(0, 0, 0, 0.06)"
-              >
+              <Box position="relative" maxW="720px">
+                <Box
+                  position="absolute"
+                  inset={0}
+                  transform="translate(8px, 8px)"
+                  bg={colors.yellow}
+                  border={`3px solid ${colors.ink}`}
+                />
                 <Image
                   src={image}
                   alt={project.title}
                   w="full"
                   maxH="420px"
                   objectFit="contain"
-                  bg="gray.50"
+                  bg={colors.paper}
+                  border={`3px solid ${colors.ink}`}
+                  position="relative"
                 />
               </Box>
             )}
 
             <Box>
-              <Heading size="md" color="gray.900" mb={3} fontWeight={600}>
-                About the project
+              <Heading as="h2" fontSize="2xl" mb={3} textShadow={`3px 3px 0 ${colors.yellow}`}>
+                ABOUT THE PROJECT
               </Heading>
-              <Text color="gray.700" fontSize="md" lineHeight={1.7}>
+              <Text color={colors.ink} fontSize="md" lineHeight={1.7}>
                 {project.longDescription}
               </Text>
             </Box>
 
             <Box>
-              <Heading size="md" color="gray.900" mb={3} fontWeight={600}>
-                Technologies
+              <Heading as="h2" fontSize="2xl" mb={3} textShadow={`3px 3px 0 ${colors.yellow}`}>
+                TECHNOLOGIES
               </Heading>
               <HStack spacing={2} flexWrap="wrap">
                 {project.technologies.map((tech) => (
                   <Box
                     key={tech}
                     px={3}
-                    py={1.5}
-                    borderRadius="8px"
-                    bg="gray.100"
+                    py={1}
+                    bg={colors.blue}
+                    color={colors.paper}
+                    border={`2px solid ${colors.ink}`}
+                    fontFamily="condensed"
+                    fontWeight={700}
+                    letterSpacing="0.06em"
+                    textTransform="uppercase"
                     fontSize="sm"
-                    fontWeight={500}
-                    color="gray.700"
                   >
                     {tech}
                   </Box>
@@ -201,13 +240,20 @@ export const ProjectDetail = () => {
 
             {project.achievements && project.achievements.length > 0 && (
               <Box>
-                <Heading size="md" color="gray.900" mb={3} fontWeight={600}>
-                  Key achievements
+                <Heading as="h2" fontSize="2xl" mb={3} textShadow={`3px 3px 0 ${colors.yellow}`}>
+                  KEY ACHIEVEMENTS
                 </Heading>
-                <List spacing={2}>
+                <List spacing={3}>
                   {project.achievements.map((achievement, i) => (
-                    <ListItem key={i} color="gray.700" fontSize="md" display="flex" alignItems="flex-start" gap={2}>
-                      <ListIcon as={FaCheckCircle} color="brand.500" mt={0.5} />
+                    <ListItem key={i} display="flex" gap={3} lineHeight={1.55}>
+                      <Box
+                        mt="0.5em"
+                        w="10px"
+                        h="10px"
+                        flexShrink={0}
+                        bg={colors.red}
+                        border={`1px solid ${colors.ink}`}
+                      />
                       {achievement}
                     </ListItem>
                   ))}
@@ -217,30 +263,28 @@ export const ProjectDetail = () => {
 
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
               {project.challenges && project.challenges.length > 0 && (
-                <Box>
-                  <Heading size="sm" color="gray.900" mb={3} fontWeight={600}>
-                    Challenges
+                <Box border={`3px solid ${colors.ink}`} p={5} bg={colors.yellow}>
+                  <Heading as="h3" fontSize="xl" mb={3}>
+                    CHALLENGES
                   </Heading>
                   <List spacing={2}>
                     {project.challenges.map((c, i) => (
-                      <ListItem key={i} color="gray.600" fontSize="sm" display="flex" alignItems="flex-start" gap={2}>
-                        <ListIcon as={FaLightbulb} color="brand.400" mt={0.5} />
-                        {c}
+                      <ListItem key={i} fontSize="sm" lineHeight={1.5}>
+                        — {c}
                       </ListItem>
                     ))}
                   </List>
                 </Box>
               )}
               {project.solutions && project.solutions.length > 0 && (
-                <Box>
-                  <Heading size="sm" color="gray.900" mb={3} fontWeight={600}>
-                    Solutions
+                <Box border={`3px solid ${colors.ink}`} p={5} bg={colors.paper}>
+                  <Heading as="h3" fontSize="xl" mb={3}>
+                    SOLUTIONS
                   </Heading>
                   <List spacing={2}>
                     {project.solutions.map((s, i) => (
-                      <ListItem key={i} color="gray.600" fontSize="sm" display="flex" alignItems="flex-start" gap={2}>
-                        <ListIcon as={FaTools} color="brand.500" mt={0.5} />
-                        {s}
+                      <ListItem key={i} fontSize="sm" lineHeight={1.5}>
+                        — {s}
                       </ListItem>
                     ))}
                   </List>
@@ -248,8 +292,8 @@ export const ProjectDetail = () => {
               )}
             </SimpleGrid>
           </VStack>
-        </MotionBox>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   )
 }

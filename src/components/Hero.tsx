@@ -1,17 +1,23 @@
-import { Box, Container, Text, VStack, HStack, Link, Button, Flex, Image } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Text,
+  VStack,
+  HStack,
+  Link,
+  Button,
+  Flex,
+  Image,
+} from '@chakra-ui/react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { FaArrowRight, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
-import { HeroAnimatedBackground } from './AnimatedBackground'
-import heroImage from '../assets/IMG_7913.jpg'
+import { HeroPosterBackdrop } from './AnimatedBackground'
+import { colors } from '../theme'
+import heroImage from '../assets/headshot.jpg'
 
 const MotionBox = motion(Box)
-const MotionVStack = motion(VStack)
-const MotionText = motion(Text)
 const MotionImage = motion(Image)
-
-const line1 = "Abrar Nafiu"
-const line2 = "Software Engineer"
 
 export const Hero = () => {
   const ref = useRef(null)
@@ -19,212 +25,174 @@ export const Hero = () => {
     target: ref,
     offset: ['start start', 'end start'],
   })
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80])
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
 
   return (
     <Box
+      as="header"
       ref={ref}
       position="relative"
-      minH={{ base: '85vh', md: '90vh' }}
+      minH="100vh"
       display="flex"
-      alignItems="center"
-      bg="white"
+      alignItems="stretch"
+      bg={colors.blue}
       overflow="hidden"
+      borderBottom={`4px solid ${colors.ink}`}
     >
-      <HeroAnimatedBackground />
+      <HeroPosterBackdrop />
 
-      <MotionBox
-        style={{ y, opacity, scale }}
-        position="relative"
-        zIndex={1}
-        w="100%"
-      >
-        <Container maxW="1200px" py={{ base: 24, md: 32 }}>
+      <MotionBox style={{ y, opacity }} position="relative" zIndex={1} w="100%" display="flex">
+        <Container maxW="1240px" py={{ base: 28, md: 0 }} px={{ base: 4, md: 8 }} w="full">
           <Flex
-            direction={{ base: 'column', md: 'row' }}
-            align="center"
+            direction={{ base: 'column', lg: 'row' }}
+            align={{ base: 'stretch', lg: 'center' }}
             justify="space-between"
-            gap={{ base: 10, md: 12 }}
+            gap={{ base: 10, lg: 12 }}
+            minH={{ lg: '100vh' }}
+            pt={{ base: 4, lg: 16 }}
+            pb={{ base: 10, lg: 16 }}
           >
-            <MotionVStack
+            <VStack
               flex={1}
-              maxW={{ md: '55%' }}
-              align={{ base: 'center', md: 'flex-start' }}
-              textAlign={{ base: 'center', md: 'left' }}
+              align={{ base: 'flex-start', lg: 'flex-start' }}
               spacing={6}
-              initial="hidden"
-              animate="visible"
-              variants={{
-                visible: {
-                  transition: { staggerChildren: 0.08, delayChildren: 0.2 },
-                },
-                hidden: {},
-              }}
+              maxW={{ lg: '58%' }}
             >
-            <MotionBox
-              as="h1"
-              fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
-              fontWeight={700}
-              letterSpacing="-0.03em"
-              lineHeight={1.1}
-              color="gray.900"
-              variants={{
-                visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
-                hidden: {},
-              }}
-            >
-              {line1.split(' ').map((word, i) => (
-                <MotionText
-                  key={`${word}-${i}`}
-                  as="span"
-                  display="inline-block"
-                  mr="0.25em"
-                  variants={{
-                    hidden: { opacity: 0, y: 24 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-                    },
-                  }}
+              <Text
+                fontFamily="condensed"
+                fontWeight={700}
+                letterSpacing="0.14em"
+                textTransform="uppercase"
+                fontSize="sm"
+                color={colors.yellow}
+                border={`2px solid ${colors.yellow}`}
+                px={3}
+                py={1}
+              >
+                Software Engineer · NYC / Boston
+              </Text>
+
+              <Box>
+                <Text
+                  as="h1"
+                  fontFamily="heading"
+                  fontSize={{ base: '4.6rem', sm: '6rem', md: '7.5rem', lg: '8.5rem' }}
+                  lineHeight={0.9}
+                  color={colors.paper}
+                  letterSpacing="0.02em"
+                  textShadow={`6px 6px 0 ${colors.yellow}, 12px 12px 0 ${colors.red}`}
+                  textTransform="uppercase"
                 >
-                  {word}
-                </MotionText>
-              ))}
-              <br />
-              <MotionText
-                as="span"
-                color="brand.600"
-                display="inline-block"
-                variants={{
-                  hidden: { opacity: 0, y: 24 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-                  },
-                }}
-              >
-                {line2}
-              </MotionText>
-            </MotionBox>
+                  Abrar
+                </Text>
+                <Text
+                  as="span"
+                  display="block"
+                  fontFamily="heading"
+                  fontSize={{ base: '4.6rem', sm: '6rem', md: '7.5rem', lg: '8.5rem' }}
+                  lineHeight={0.9}
+                  color={colors.yellow}
+                  letterSpacing="0.02em"
+                  textShadow={`6px 6px 0 ${colors.ink}`}
+                  textTransform="uppercase"
+                  mt={1}
+                >
+                  Nafiu
+                </Text>
+              </Box>
 
-            <MotionText
-              fontSize={{ base: 'lg', md: 'xl' }}
-              color="gray.600"
-              maxW="560px"
-              lineHeight={1.6}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-                },
-              }}
-            >
-              Hi, I'm a computer science student at Northeastern building products
-              with an engineering-first mindset. Python, React, TypeScript, and cloud.
-            </MotionText>
-
-            <HStack spacing={4} pt={2} flexWrap="wrap" justify={{ base: 'center', md: 'flex-start' }}>
-              <MotionBox
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
-                  },
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+              <Text
+                fontSize={{ base: 'lg', md: 'xl' }}
+                color={colors.paper}
+                maxW="520px"
+                lineHeight={1.45}
+                fontWeight={500}
               >
+                CS at Northeastern. Most recently a Software Engineering Intern at Spotify —
+                shipping gRPC services, React UIs, and multi-agent systems.
+              </Text>
+
+              <HStack spacing={4} flexWrap="wrap" pt={1}>
                 <Button
                   as={Link}
                   href="/#projects"
-                  colorScheme="brand"
                   size="lg"
                   rightIcon={<FaArrowRight />}
-                  borderRadius="12px"
-                  _hover={{ textDecoration: 'none', boxShadow: '0 0 40px rgba(99, 102, 241, 0.4)' }}
-                  transition="all 0.3s ease"
+                  _hover={{ textDecoration: 'none' }}
                 >
                   View Projects
                 </Button>
-              </MotionBox>
-              <MotionBox
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] },
-                  },
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-              >
                 <Button
                   as={Link}
                   href="/#contact"
-                  variant="outline"
                   size="lg"
-                  borderRadius="12px"
-                  _hover={{ textDecoration: 'none', borderColor: 'brand.400', bg: 'brand.50' }}
-                  transition="all 0.3s ease"
+                  variant="outline"
+                  color={colors.paper}
+                  borderColor={colors.paper}
+                  boxShadow={`4px 4px 0 ${colors.ink}`}
+                  _hover={{
+                    bg: colors.paper,
+                    color: colors.ink,
+                    textDecoration: 'none',
+                    transform: 'translate(-2px, -2px)',
+                    boxShadow: `6px 6px 0 ${colors.ink}`,
+                  }}
                 >
                   Get in Touch
                 </Button>
-              </MotionBox>
-            </HStack>
+              </HStack>
 
-            <MotionBox
-              variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { delay: 0.4, duration: 0.5 } },
-              }}
-            >
-              <HStack spacing={5} pt={4}>
+              <HStack spacing={5} pt={2}>
                 {[
                   { href: 'https://github.com/abrarnafiu', Icon: FaGithub, label: 'GitHub' },
                   { href: 'https://www.linkedin.com/in/abrar-nafiu/', Icon: FaLinkedin, label: 'LinkedIn' },
                   { href: 'mailto:abrarnafiu@abrarnafiu.com', Icon: FaEnvelope, label: 'Email' },
                 ].map(({ href, Icon, label }) => (
-                  <MotionBox key={label} whileHover={{ scale: 1.2, y: -2 }} whileTap={{ scale: 0.9 }}>
-                    <Link
-                      href={href}
-                      isExternal={label !== 'Email'}
-                      color="gray.500"
-                      _hover={{ color: 'brand.500' }}
-                      transition="color 0.2s"
-                      aria-label={label}
-                    >
-                      <Icon size={22} />
-                    </Link>
-                  </MotionBox>
+                  <Link
+                    key={label}
+                    href={href}
+                    isExternal={label !== 'Email'}
+                    color={colors.paper}
+                    opacity={0.9}
+                    _hover={{ color: colors.yellow, opacity: 1 }}
+                    aria-label={label}
+                  >
+                    <Icon size={22} />
+                  </Link>
                 ))}
               </HStack>
-            </MotionBox>
-          </MotionVStack>
+            </VStack>
 
-            <MotionImage
-              src={heroImage}
-              alt="Abrar Nafiu"
-              w={{ base: '280px', sm: '340px', md: '400px', lg: '440px' }}
-              h={{ base: '280px', sm: '340px', md: '400px', lg: '440px' }}
-              objectFit="cover"
-              borderRadius="16px"
+            <Box
+              position="relative"
               flexShrink={0}
-              border="4px solid"
-              borderColor="white"
-              boxShadow="0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05)"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
+              alignSelf={{ base: 'center', lg: 'center' }}
+              w={{ base: '260px', sm: '320px', md: '380px' }}
+            >
+              <Box
+                position="absolute"
+                inset={0}
+                transform="translate(10px, 10px)"
+                bg={colors.yellow}
+                border={`3px solid ${colors.ink}`}
+                zIndex={0}
+              />
+              <MotionImage
+                src={heroImage}
+                alt="Abrar Nafiu"
+                w="full"
+                aspectRatio={1}
+                objectFit="cover"
+                objectPosition="center 18%"
+                border={`3px solid ${colors.ink}`}
+                position="relative"
+                zIndex={1}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.15 }}
+              />
+            </Box>
           </Flex>
         </Container>
       </MotionBox>

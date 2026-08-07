@@ -21,28 +21,36 @@ export interface ProjectData {
   duration?: string
 }
 
-// Projects are imported with images in components; we export IDs and metadata
 export const projectList: Omit<ProjectData, 'image'>[] = [
   {
     id: 'watch-engine',
     title: 'AI-Powered Watch Search Engine',
-    summary: 'Semantic search for luxury watches using natural language. Vector pipeline with Supabase + OpenAI.',
-    description: 'A full-stack application that enables users to search luxury watches using natural language queries, powered by OpenAI\'s GPT model and Supabase vector database for semantic search.',
-    longDescription: `The AI-Powered Watch Search Engine is a sophisticated application that revolutionizes how users discover luxury timepieces. By leveraging cutting-edge AI technologies, the platform understands natural language queries and returns highly relevant watch recommendations. The project addresses a common challenge in the luxury watch market: finding the perfect timepiece based on specific preferences, budget constraints, and style requirements.`,
-    technologies: ['TypeScript', 'Node.js', 'Supabase', 'OpenAI API', 'Watch Database API'],
+    summary:
+      'Semantic search for luxury watches using LLM embeddings and pgvector. Natural-language queries over thousands of records.',
+    description:
+      'A semantic search system that lets users find luxury watches with natural language, powered by LLM-generated embeddings and vector similarity search.',
+    longDescription: `The AI-Powered Watch Search Engine is a full-stack application for discovering luxury timepieces through natural-language queries. It uses LLM-generated embeddings and vector similarity search so results match intent—not just keywords—across a catalog of thousands of watches.`,
+    technologies: [
+      'TypeScript',
+      'Node.js',
+      'Supabase',
+      'OpenAI API',
+      'LLM embeddings',
+      'PostgreSQL',
+      'pgvector',
+      'WatchDB API',
+    ],
     githubUrl: 'https://github.com/abrarnafiu',
     liveUrl: 'https://watch-engine.onrender.com/',
     metrics: [
-      { value: '<500ms', label: 'Search latency' },
-      { value: '95%', label: 'Relevance score' },
+      { value: 'Semantic', label: 'NL search' },
+      { value: 'pgvector', label: 'Retrieval' },
       { value: '1k+', label: 'Watch catalog' },
     ],
     achievements: [
-      'Engineered a vector-based search pipeline integrating Supabase vector database and OpenAI',
-      'Ingested thousands of watches from the Watch Database API',
-      'Populated Supabase with both relational data and vector embeddings',
-      'Achieved 95% search relevance score in user testing',
-      'Reduced search time from 3 seconds to under 500ms',
+      'Built a semantic search system using LLM-generated embeddings and vector similarity search for natural-language queries over thousands of watch records',
+      'Designed an embedding-based retrieval pipeline using OpenAI embeddings and pgvector for intent-aware ranking',
+      'Built a data ingestion and embedding pipeline that generated vector representations for thousands of watch records to support scalable semantic retrieval',
     ],
     challenges: [
       'Integrating multiple data sources with different schemas',
@@ -50,19 +58,51 @@ export const projectList: Omit<ProjectData, 'image'>[] = [
       'Creating a responsive UI that works well on all devices',
     ],
     solutions: [
-      'Developed a custom ETL pipeline to normalize data from various sources',
-      'Implemented caching and indexing strategies to improve search performance',
+      'Developed a custom ETL and embedding pipeline to normalize and vectorize watch records',
+      'Used pgvector with OpenAI embeddings for intent-aware ranking',
       'Used CSS Grid and Flexbox for a responsive design that adapts to different screen sizes',
     ],
     role: 'Full Stack Developer',
     duration: '3 months',
   },
   {
+    id: 'monte-carlo-simulation',
+    title: 'Monte Carlo Simulation for Quantitative Analysis',
+    summary:
+      'Python Monte Carlo engine for financial risk modeling with parallel computation and interactive visualization.',
+    description:
+      'A financial risk modeling tool using Monte Carlo simulation, featuring probabilistic sampling, parallel computation, and interactive visualization.',
+    longDescription: `The Monte Carlo Simulation tool is a financial modeling application that helps analysts assess risk by running thousands of simulated scenarios. Built in Python with a Flask backend and TypeScript frontend, it uses probabilistic sampling and parallel computation to visualize outcome distributions.`,
+    technologies: ['Python', 'Flask', 'TypeScript', 'YFinance API'],
+    githubUrl: 'https://github.com/abrarnafiu/PANG',
+    metrics: [
+      { value: '39%', label: 'Faster simulation' },
+      { value: 'Full-stack', label: 'Flask + TS' },
+    ],
+    achievements: [
+      'Built a Python-based Monte Carlo simulation engine for financial risk modeling using probabilistic sampling and parallel computation',
+      'Performed data analysis and statistical modeling in Python to simulate thousands of financial scenarios and visualize outcome distributions',
+      'Enhanced performance and user experience by reducing simulation time by 39% and implementing a responsive design for cross-device accessibility',
+    ],
+    challenges: [
+      'Optimizing performance for computationally intensive simulations',
+      'Creating intuitive visualizations for complex financial data',
+    ],
+    solutions: [
+      'Used parallel computation and probabilistic sampling to speed up scenario generation',
+      'Built interactive visualizations of outcome distributions for clearer risk analysis',
+    ],
+    role: 'Quantitative Developer',
+    duration: '4 months',
+  },
+  {
     id: 'nurture-nest',
     title: 'Nurture Nest',
-    summary: 'Pregnancy mental health app for the Innovators of Global Health Club. Mood tracking, journaling, support.',
-    description: 'A cross-platform mobile app developed for the Innovators of Global Health Club, focusing on pregnancy mental health support.',
-    longDescription: `Nurture Nest is a comprehensive mental health application designed specifically for expectant mothers in Ghana. The app provides tools, resources, and support to help women navigate the emotional challenges of pregnancy and early motherhood. The project was initiated in response to the growing recognition of perinatal mental health issues.`,
+    summary:
+      'Pregnancy mental health app for the Innovators of Global Health Club. Mood tracking, journaling, support.',
+    description:
+      'A cross-platform mobile app developed for the Innovators of Global Health Club, focusing on pregnancy mental health support.',
+    longDescription: `Nurture Nest is a comprehensive mental health application designed specifically for expectant mothers in Ghana. The app provides tools, resources, and support to help women navigate the emotional challenges of pregnancy and early motherhood.`,
     technologies: ['React Native', 'Expo', 'AsyncStorage', 'TypeScript'],
     githubUrl: 'https://github.com/abrarnafiu',
     metrics: [
@@ -88,32 +128,5 @@ export const projectList: Omit<ProjectData, 'image'>[] = [
     ],
     role: 'Mobile Developer',
     duration: '6 months',
-  },
-  {
-    id: 'monte-carlo-simulation',
-    title: 'Monte Carlo Simulation for Quantitative Analysis',
-    summary: 'Financial risk modeling with interactive visualization. Full-stack Python + React.',
-    description: 'A financial risk modeling tool using Monte Carlo simulation, featuring interactive data visualization and real-time results exploration.',
-    longDescription: `The Monte Carlo Simulation tool is a sophisticated financial modeling application that helps analysts and investors assess risk and make informed decisions. By running thousands of simulated scenarios, the tool provides insights into potential outcomes and their probabilities.`,
-    technologies: ['Python', 'Flask', 'React', 'TypeScript', 'Yahoo Finance API'],
-    githubUrl: 'https://github.com/abrarnafiu/PANG',
-    metrics: [
-      { value: '9%', label: 'Faster simulation' },
-      { value: 'Full-stack', label: 'Flask + React' },
-    ],
-    achievements: [
-      'Developed and optimized Monte Carlo simulation using Python',
-      'Built full-stack web application with Flask backend and React frontend',
-      'Reduced simulation time by 9% and implemented responsive design',
-    ],
-    challenges: [
-      'Optimizing performance for computationally intensive simulations',
-      'Creating intuitive visualizations for complex financial data',
-    ],
-    solutions: [
-      'Conducted extensive backtesting against historical market data to validate the model',
-    ],
-    role: 'Quantitative Developer',
-    duration: '4 months',
   },
 ]

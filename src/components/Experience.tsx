@@ -1,14 +1,44 @@
-import { Box, Container, Heading, Text, VStack, HStack, List, ListItem, ListIcon, Flex } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  List,
+  ListItem,
+  Flex,
+} from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { FaCircle } from 'react-icons/fa'
+import { colors } from '../theme'
+import { StripeField } from './AnimatedBackground'
 
 const MotionBox = motion(Box)
 
-const NODE_TOP = 28
-const LINE_LEFT = 11
-
 const workExperiences = [
+  {
+    company: 'Spotify',
+    role: 'Software Engineering Intern',
+    location: 'New York, NY',
+    period: 'Jun. 2026 – Aug. 2026',
+    bullets: [
+      'Designed and shipped gRPC endpoints with Protocol Buffers to power per-credit visibility toggling on Spotify for Artists, replacing an all-or-nothing hide that forced artists to suppress entire profiles and reducing fully-hidden credits by 25%',
+      'Built React components for the credit-management feature, including visibility toggles and inline warning states that clarified edit permissions for artist and label teams across 3 surfaces',
+      'Integrated typed Proto contracts between backend services and frontend, improving response times by 15% and ensuring artist and label teams saw accurate credit-action permissions',
+    ],
+  },
+  {
+    company: 'Robert Half',
+    role: 'Software Engineering Intern (Contract)',
+    location: 'Remote',
+    period: 'May 2026 – Aug. 2026',
+    bullets: [
+      "Built an internal multi-agent chatbot in C# over Protiviti's consulting knowledge base, orchestrating 20+ specialized agents across multiple LLMs to answer employee queries",
+      'Migrated the orchestration layer from Group Chat to Magentic orchestration, improving task completion by 20%',
+      'Added batch prompt support enabling consultants to run client discovery queries in parallel rather than sequentially, cutting discovery time by 33%',
+    ],
+  },
   {
     company: 'Amazon',
     role: 'Junior Coder (3-year Apprenticeship Program)',
@@ -17,199 +47,176 @@ const workExperiences = [
     bullets: [
       'Optimized Spring Boot–based REST services supporting thousands of daily requests, improving throughput and response times by ~20% through caching, async processing, and query tuning',
       'Developed and maintained frontend components and internal tools using JavaScript and React, improving usability and reducing manual workflows for multiple engineering teams',
-      'Leveraged AWS (Lambda, EC2, S3, IAM) to deploy scalable services and automate CI/CD and operational workflows, cutting manual deployment time by 40%',
-    ],
-  },
-  {
-    company: 'NExT Consulting',
-    role: 'Software Engineering Co-op',
-    location: 'Boston, MA',
-    period: 'Dec. 2025 – Present',
-    bullets: [
-      'Built and shipped production-grade full-stack applications for external clients, designing RESTful APIs, normalized relational schemas, and cloud-deployed services used by hundreds of end users',
-      'Implemented backend services (Java/Spring Boot, Node.js) and frontend interfaces (React, TypeScript), improving feature response times by 25% through API and query optimization',
-      'Collaborated in agile, cross-functional teams to define system architecture, conduct code reviews, and ensure production-ready deployments using Git, CI/CD pipelines, and Docker',
+      'Leveraged AWS (Lambda, EC2, S3, IAM) to deploy scalable services and automate CI/CD workflows, cutting manual deployment time by 40%',
     ],
   },
 ]
 
-const highSchool = {
-  title: 'Brooklyn Technical High School',
-  role: 'High School Diploma',
-  location: 'Brooklyn, NY',
-  period: '2020 – 2024',
-  metrics: [] as string[],
-  details: '',
-}
-
-const northeastern = {
-  title: 'Northeastern University',
-  role: 'B.S. Computer Science',
-  location: 'Boston, MA',
-  period: 'Expected Dec 2027',
-  metrics: ['3.7 GPA', 'Minor: Mathematics'],
-  details: 'Relevant coursework: Data Structures & Algorithms, OOD, Discrete Structures, Cybersecurity, Big Data Analytics.',
-}
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+const education = [
+  {
+    title: 'Northeastern University',
+    role: 'B.S. Computer Science',
+    location: 'Boston, MA',
+    period: 'Expected Dec. 2027',
+    metrics: ['3.70 GPA', 'Minor: Mathematics'],
+    details:
+      'Coursework: Data Structures and Algorithms, Object-Oriented Design, Data Analytics, Cybersecurity.',
   },
-}
-
-const item = {
-  hidden: { opacity: 0, x: -24, y: 12 },
-  show: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  {
+    title: 'Brooklyn Technical High School',
+    role: 'High School Diploma',
+    location: 'Brooklyn, NY',
+    period: '2020 – 2024',
+    metrics: [] as string[],
+    details: '',
   },
-}
+]
 
-const lineDraw = {
-  hidden: { scaleY: 0 },
-  show: {
-    scaleY: 1,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-  },
+const accentFor = (i: number) => {
+  const accents = [colors.yellow, colors.red, colors.blue, colors.yellow]
+  return accents[i % accents.length]
 }
 
 export const Experience = () => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   const timelineEntries = [
-    { type: 'education' as const, education: highSchool },
-    { type: 'work' as const, work: workExperiences[0] },
-    { type: 'education' as const, education: northeastern },
-    { type: 'work' as const, work: workExperiences[1] },
+    ...workExperiences.map((work) => ({ type: 'work' as const, work })),
+    ...education.map((edu) => ({ type: 'education' as const, education: edu })),
   ]
 
   return (
-    <Box py={{ base: 16, md: 24 }} bg="white" position="relative" overflow="hidden">
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99, 102, 241, 0.06), transparent 60%)"
-        pointerEvents="none"
-      />
-      <Container maxW="1200px" position="relative" zIndex={1}>
+    <Box
+      as="section"
+      aria-labelledby="experience-heading"
+      py={{ base: 16, md: 24 }}
+      bg={colors.paper}
+      position="relative"
+      overflow="hidden"
+      borderBottom={`4px solid ${colors.ink}`}
+    >
+      <StripeField opacity={0.04} />
+      <Container maxW="1240px" position="relative" zIndex={1} px={{ base: 4, md: 8 }}>
         <MotionBox
           ref={ref}
-          variants={container}
-          initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
         >
           <VStack align="stretch" spacing={12}>
-            <MotionBox variants={item}>
+            <Box>
               <Text
-                fontSize="sm"
-                fontWeight={600}
-                color="brand.600"
-                letterSpacing="0.05em"
+                fontFamily="condensed"
+                fontWeight={700}
+                letterSpacing="0.14em"
                 textTransform="uppercase"
+                fontSize="sm"
+                color={colors.blue}
                 mb={2}
               >
-                Experience & education
+                01 — Experience & Education
               </Text>
-              <Heading size="xl" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
-                Impact-focused execution
+              <Heading
+                as="h2"
+                id="experience-heading"
+                fontSize={{ base: '3xl', md: '5xl' }}
+                textShadow={`4px 4px 0 ${colors.yellow}`}
+                lineHeight={1.05}
+              >
+                WHERE I&apos;VE BEEN
               </Heading>
-              <Text color="gray.600" mt={2} maxW="600px">
-                Professional experience and education centered on data, systems, and measurable outcomes.
+              <Text color={colors.muted} mt={3} maxW="560px" fontSize="lg">
+                Internships and apprenticeship work across consumer products, AI tooling, and
+                cloud services.
               </Text>
-            </MotionBox>
+            </Box>
 
-            <Box position="relative" pl={{ base: 10, md: 12 }}>
-              <MotionBox
-                position="absolute"
-                left={`${LINE_LEFT}px`}
-                top={`${NODE_TOP}px`}
-                bottom={0}
-                w="2px"
-                bg="gray.200"
-                borderRadius="full"
-                style={{ originY: 0 }}
-                variants={lineDraw}
-                initial="hidden"
-                animate={inView ? 'show' : 'hidden'}
-              />
-
-              <VStack align="stretch" spacing={0}>
-                {timelineEntries.map((entry, i) => (
-                  <MotionBox key={i} variants={item}>
-                    <Flex pt={i === 0 ? 0 : 8} pb={8} gap={4} align="flex-start">
+            <VStack align="stretch" spacing={0}>
+              {timelineEntries.map((entry, i) => {
+                const accent = accentFor(i)
+                const isWork = entry.type === 'work'
+                return (
+                  <MotionBox
+                    key={i}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.45, delay: 0.08 * i }}
+                    borderTop={`3px solid ${colors.ink}`}
+                    _last={{ borderBottom: `3px solid ${colors.ink}` }}
+                  >
+                    <Flex
+                      direction={{ base: 'column', md: 'row' }}
+                      gap={{ base: 4, md: 8 }}
+                      py={{ base: 6, md: 8 }}
+                    >
                       <Box
+                        w={{ md: '200px' }}
                         flexShrink={0}
-                        w="24px"
-                        position="relative"
-                        sx={{ mt: { base: '22px', md: '24px' } }}
+                        borderLeft={`6px solid ${accent}`}
+                        pl={4}
                       >
-                        <MotionBox
-                          position="absolute"
-                          left="50%"
-                          transform="translateX(-50%)"
-                          w={3}
-                          h={3}
-                          borderRadius="full"
-                          bg="white"
-                          borderWidth="2px"
-                          borderColor="brand.500"
-                          borderStyle="solid"
-                          zIndex={1}
-                          boxShadow="0 0 0 3px white"
-                          variants={item}
-                          whileHover={{ scale: 1.4, boxShadow: '0 0 0 6px rgba(99, 102, 241, 0.2)' }}
-                          transition={{ duration: 0.2 }}
-                        />
+                        <Text
+                          fontFamily="condensed"
+                          fontWeight={800}
+                          fontSize="lg"
+                          letterSpacing="0.04em"
+                          textTransform="uppercase"
+                        >
+                          {isWork ? entry.work.period : entry.education.period}
+                        </Text>
+                        <Text
+                          fontSize="xs"
+                          fontFamily="condensed"
+                          fontWeight={700}
+                          letterSpacing="0.12em"
+                          textTransform="uppercase"
+                          color={colors.muted}
+                          mt={1}
+                        >
+                          {isWork ? 'Work' : 'School'}
+                        </Text>
                       </Box>
 
-                      <MotionBox
-                        flex={1}
-                        minW={0}
-                        p={{ base: 5, md: 6 }}
-                        borderRadius="16px"
-                        border="1px solid"
-                        borderColor="gray.200"
-                        bg="white"
-                        whileHover={{
-                          borderColor: 'brand.300',
-                          boxShadow: '0 12px 40px rgba(99, 102, 241, 0.12)',
-                          y: -2,
-                        }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                      >
-                        {entry.type === 'work' ? (
+                      <Box flex={1}>
+                        {isWork ? (
                           <>
-                            <HStack justify="space-between" align="flex-start" flexWrap="wrap" gap={2} mb={2}>
-                              <Heading size="md" color="gray.900" fontWeight={600}>
-                                {entry.work.company}
-                              </Heading>
-                              <Text fontSize="sm" color="gray.500" fontWeight={500}>
-                                {entry.work.period}
-                              </Text>
-                            </HStack>
-                            <Text fontSize="sm" color="brand.600" fontWeight={600} mb={1}>
+                            <Heading as="h3" fontSize={{ base: '2xl', md: '3xl' }} mb={1}>
+                              {entry.work.company}
+                            </Heading>
+                            <Text
+                              fontFamily="condensed"
+                              fontWeight={700}
+                              fontSize="md"
+                              letterSpacing="0.06em"
+                              textTransform="uppercase"
+                              color={colors.blue}
+                              mb={1}
+                            >
                               {entry.work.role}
                             </Text>
-                            <Text fontSize="sm" color="gray.500" mb={4}>
+                            <Text fontSize="sm" color={colors.muted} mb={4}>
                               {entry.work.location}
                             </Text>
-                            <List spacing={2}>
+                            <List spacing={3}>
                               {entry.work.bullets.map((bullet, j) => (
                                 <ListItem
                                   key={j}
                                   display="flex"
-                                  alignItems="flex-start"
-                                  gap={2}
-                                  fontSize="sm"
-                                  color="gray.700"
-                                  lineHeight={1.6}
+                                  gap={3}
+                                  fontSize="md"
+                                  color={colors.ink}
+                                  lineHeight={1.55}
                                 >
-                                  <ListIcon as={FaCircle} color="brand.400" boxSize={2} mt={2} flexShrink={0} />
+                                  <Box
+                                    as="span"
+                                    mt="0.55em"
+                                    w="8px"
+                                    h="8px"
+                                    flexShrink={0}
+                                    bg={accent}
+                                    border={`1px solid ${colors.ink}`}
+                                  />
                                   {bullet}
                                 </ListItem>
                               ))}
@@ -217,32 +224,37 @@ export const Experience = () => {
                           </>
                         ) : (
                           <>
-                            <HStack justify="space-between" align="flex-start" flexWrap="wrap" gap={2} mb={2}>
-                              <Heading size="md" color="gray.900" fontWeight={600}>
-                                {entry.education.title}
-                              </Heading>
-                              <Text fontSize="sm" color="gray.500" fontWeight={500}>
-                                {entry.education.period}
-                              </Text>
-                            </HStack>
-                            <Text fontSize="sm" color="brand.600" fontWeight={600} mb={1}>
+                            <Heading as="h3" fontSize={{ base: '2xl', md: '3xl' }} mb={1}>
+                              {entry.education.title}
+                            </Heading>
+                            <Text
+                              fontFamily="condensed"
+                              fontWeight={700}
+                              fontSize="md"
+                              letterSpacing="0.06em"
+                              textTransform="uppercase"
+                              color={colors.blue}
+                              mb={1}
+                            >
                               {entry.education.role}
                             </Text>
-                            <Text fontSize="sm" color="gray.500" mb={entry.education.metrics.length > 0 || entry.education.details ? 3 : 0}>
+                            <Text fontSize="sm" color={colors.muted} mb={3}>
                               {entry.education.location}
                             </Text>
                             {entry.education.metrics.length > 0 && (
-                              <HStack spacing={3} flexWrap="wrap" mb={3}>
-                                {entry.education.metrics.map((m, j) => (
+                              <HStack spacing={2} flexWrap="wrap" mb={3}>
+                                {entry.education.metrics.map((m) => (
                                   <Box
-                                    key={j}
+                                    key={m}
                                     px={3}
                                     py={1}
-                                    borderRadius="full"
-                                    bg="gray.100"
-                                    fontSize="xs"
-                                    fontWeight={600}
-                                    color="gray.700"
+                                    bg={colors.yellow}
+                                    border={`2px solid ${colors.ink}`}
+                                    fontFamily="condensed"
+                                    fontWeight={700}
+                                    fontSize="sm"
+                                    letterSpacing="0.06em"
+                                    textTransform="uppercase"
                                   >
                                     {m}
                                   </Box>
@@ -250,18 +262,18 @@ export const Experience = () => {
                               </HStack>
                             )}
                             {entry.education.details && (
-                              <Text fontSize="sm" color="gray.600" lineHeight={1.6}>
+                              <Text fontSize="md" color={colors.muted} lineHeight={1.55}>
                                 {entry.education.details}
                               </Text>
                             )}
                           </>
                         )}
-                      </MotionBox>
+                      </Box>
                     </Flex>
                   </MotionBox>
-                ))}
-              </VStack>
-            </Box>
+                )
+              })}
+            </VStack>
           </VStack>
         </MotionBox>
       </Container>

@@ -1,127 +1,213 @@
-import { Box, Container, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, VStack, Flex } from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { colors } from '../theme'
 
 const MotionBox = motion(Box)
 
-const categories: { label: string; tags: string[] }[] = [
-  { label: 'Languages & runtime', tags: ['Python', 'TypeScript', 'JavaScript', 'Java', 'C++'] },
-  { label: 'Frontend', tags: ['React', 'React Native', 'Expo'] },
-  { label: 'Backend & data', tags: ['Node.js', 'Flask', 'Spring Boot', 'SQL', 'Supabase'] },
-  { label: 'Cloud & tools', tags: ['AWS', 'Git', 'REST APIs'] },
+const categories: { label: string; tags: string[]; bg: string; fg: string }[] = [
+  {
+    label: 'Languages',
+    tags: ['Python', 'Java', 'JavaScript', 'TypeScript', 'C++', 'C#', 'OCaml', 'SQL'],
+    bg: colors.blue,
+    fg: colors.paper,
+  },
+  {
+    label: 'Frameworks',
+    tags: ['React', 'Spring Boot', 'Node.js', 'Next.js', 'Express', 'Flask', 'Expo', '.NET'],
+    bg: colors.yellow,
+    fg: colors.ink,
+  },
+  {
+    label: 'Tools',
+    tags: [
+      'AWS',
+      'Docker',
+      'Kubernetes',
+      'Jenkins',
+      'gRPC',
+      'Protocol Buffers',
+      'Git',
+      'Supabase',
+      'Selenium',
+      'Jest',
+      'JUnit',
+      'Twilio',
+    ],
+    bg: colors.red,
+    fg: colors.paper,
+  },
+  {
+    label: 'Machine Learning / Data',
+    tags: [
+      'Pandas',
+      'NumPy',
+      'Scikit-learn',
+      'Vector Embeddings',
+      'LLM APIs',
+      'Multi-Agent Orchestration',
+    ],
+    bg: colors.ink,
+    fg: colors.yellow,
+  },
 ]
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
-  },
-}
+const marqueeTags = [
+  'Python',
+  'TypeScript',
+  'React',
+  'gRPC',
+  'C#',
+  'AWS',
+  'Spring Boot',
+  'Next.js',
+  'Docker',
+  'Kubernetes',
+  'LLM APIs',
+  'Protocol Buffers',
+]
 
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
-const tagVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  show: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: { delay: i * 0.03, duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-  }),
+function Marquee() {
+  const doubled = [...marqueeTags, ...marqueeTags]
+  return (
+    <Box
+      overflow="hidden"
+      borderY={`3px solid ${colors.ink}`}
+      bg={colors.yellow}
+      py={3}
+      my={8}
+    >
+      <Flex
+        as="div"
+        w="max-content"
+        gap={10}
+        animation="marquee 28s linear infinite"
+        sx={{
+          '@keyframes marquee': {
+            from: { transform: 'translateX(0)' },
+            to: { transform: 'translateX(-50%)' },
+          },
+        }}
+      >
+        {doubled.map((tag, i) => (
+          <Text
+            key={`${tag}-${i}`}
+            fontFamily="condensed"
+            fontWeight={800}
+            fontSize={{ base: 'xl', md: '2xl' }}
+            letterSpacing="0.08em"
+            textTransform="uppercase"
+            whiteSpace="nowrap"
+            color={colors.ink}
+          >
+            {tag}
+            <Box as="span" mx={4} color={colors.red}>
+              ◆
+            </Box>
+          </Text>
+        ))}
+      </Flex>
+    </Box>
+  )
 }
 
 export const Skills = () => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <Box py={{ base: 16, md: 24 }} bg="gray.50" position="relative" overflow="hidden">
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="radial-gradient(ellipse 80% 50% at 50% 100%, rgba(99, 102, 241, 0.08), transparent 50%)"
-        pointerEvents="none"
-      />
-      <Container maxW="1200px" position="relative" zIndex={1}>
+    <Box
+      as="section"
+      aria-labelledby="skills-heading"
+      py={{ base: 16, md: 20 }}
+      bg={colors.blue}
+      position="relative"
+      overflow="hidden"
+      borderBottom={`4px solid ${colors.ink}`}
+      color={colors.paper}
+    >
+      <Container maxW="1240px" px={{ base: 4, md: 8 }}>
         <MotionBox
           ref={ref}
-          variants={container}
-          initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.45 }}
         >
-          <VStack align="stretch" spacing={10}>
-            <MotionBox variants={item}>
-              <Text
-                fontSize="sm"
-                fontWeight={600}
-                color="brand.600"
-                letterSpacing="0.05em"
-                textTransform="uppercase"
-                mb={2}
-              >
-                Stack
-              </Text>
-              <Heading size="xl" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
-                Skills
-              </Heading>
-              <Text color="gray.600" mt={2} maxW="560px">
-                Curated set of technologies I use to ship products and systems.
-              </Text>
-            </MotionBox>
-
-            <VStack align="stretch" spacing={6}>
-              {categories.map((cat) => (
-                <MotionBox key={cat.label} variants={item}>
-                  <Text fontSize="xs" fontWeight={600} color="gray.500" letterSpacing="0.05em" mb={3}>
-                    {cat.label}
-                  </Text>
-                  <Box display="flex" flexWrap="wrap" gap={2}>
-                    {cat.tags.map((tag, tagIndex) => (
-                      <MotionBox
-                        key={tag}
-                        custom={tagIndex}
-                        variants={tagVariants}
-                        initial="hidden"
-                        animate={inView ? 'show' : 'hidden'}
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Box
-                          px={4}
-                          py={2}
-                          borderRadius="12px"
-                          bg="white"
-                          border="1px solid"
-                          borderColor="gray.200"
-                          fontSize="sm"
-                          fontWeight={500}
-                          color="gray.700"
-                          cursor="default"
-                          boxShadow="0 1px 3px rgba(0,0,0,0.04)"
-                          _hover={{
-                            borderColor: 'brand.400',
-                            color: 'brand.600',
-                            boxShadow: '0 4px 20px rgba(99, 102, 241, 0.15)',
-                          }}
-                          transition="all 0.25s ease"
-                        >
-                          {tag}
-                        </Box>
-                      </MotionBox>
-                    ))}
-                  </Box>
-                </MotionBox>
-              ))}
-            </VStack>
-          </VStack>
+          <Text
+            fontFamily="condensed"
+            fontWeight={700}
+            letterSpacing="0.14em"
+            textTransform="uppercase"
+            fontSize="sm"
+            color={colors.yellow}
+            mb={2}
+          >
+            02 — Stack
+          </Text>
+          <Heading
+            as="h2"
+            id="skills-heading"
+            fontSize={{ base: '3xl', md: '5xl' }}
+            color={colors.paper}
+            textShadow={`4px 4px 0 ${colors.ink}`}
+            lineHeight={1.05}
+          >
+            TOOLS I SHIP WITH
+          </Heading>
+          <Text color={colors.paper} opacity={0.9} mt={3} maxW="520px" fontSize="lg">
+            Languages, frameworks, cloud tooling, and ML stack from recent internship and project
+            work.
+          </Text>
         </MotionBox>
+      </Container>
+
+      <Marquee />
+
+      <Container maxW="1240px" px={{ base: 4, md: 8 }} pb={4}>
+        <VStack align="stretch" spacing={4}>
+          {categories.map((cat, i) => (
+            <MotionBox
+              key={cat.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.06 * i }}
+              bg={cat.bg}
+              color={cat.fg}
+              border={`3px solid ${colors.ink}`}
+              boxShadow={`5px 5px 0 ${colors.ink}`}
+              p={{ base: 4, md: 5 }}
+            >
+              <Text
+                fontFamily="condensed"
+                fontWeight={700}
+                letterSpacing="0.12em"
+                textTransform="uppercase"
+                fontSize="sm"
+                mb={3}
+                opacity={0.85}
+              >
+                {cat.label}
+              </Text>
+              <Flex flexWrap="wrap" gap={2}>
+                {cat.tags.map((tag) => (
+                  <Box
+                    key={tag}
+                    px={3}
+                    py={1}
+                    border={`2px solid ${cat.fg}`}
+                    fontFamily="condensed"
+                    fontWeight={700}
+                    fontSize="md"
+                    letterSpacing="0.06em"
+                    textTransform="uppercase"
+                  >
+                    {tag}
+                  </Box>
+                ))}
+              </Flex>
+            </MotionBox>
+          ))}
+        </VStack>
       </Container>
     </Box>
   )

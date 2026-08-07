@@ -1,110 +1,131 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Flex, HStack, Link, Text } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
-
-const MotionBox = motion(Box)
+import React, { useEffect, useState } from 'react'
+import { Box, Flex, HStack, Link, Text, IconButton } from '@chakra-ui/react'
+import { FaBars, FaTimes } from 'react-icons/fa'
+import { colors } from '../theme'
 
 const navItems = [
-  { label: 'Experience', id: 'experience' },
+  { label: 'Work', id: 'experience' },
   { label: 'Skills', id: 'skills' },
-  { label: 'Interests', id: 'interests' },
+  { label: 'Life', id: 'interests' },
   { label: 'Projects', id: 'projects' },
   { label: 'Contact', id: 'contact' },
 ]
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    const onScroll = () => setScrolled(window.scrollY > 16)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    el?.scrollIntoView({ behavior: 'smooth' })
+    setOpen(false)
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <MotionBox
+    <Box
       as="nav"
       position="fixed"
       top={0}
       left={0}
       right={0}
       zIndex={100}
-      initial={false}
-      animate={{
-        backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.9)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
-        borderBottom: scrolled ? '1px solid' : '1px solid transparent',
-        borderColor: 'gray.200',
-        boxShadow: scrolled ? '0 4px 24px rgba(0, 0, 0, 0.06)' : 'none',
-      }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      bg={scrolled || open ? colors.paper : 'transparent'}
+      borderBottom={scrolled || open ? `3px solid ${colors.ink}` : '3px solid transparent'}
+      transition="background 0.2s ease, border-color 0.2s ease"
     >
       <Flex
-        maxW="1200px"
+        maxW="1240px"
         mx="auto"
         px={{ base: 4, md: 8 }}
-        py={4}
+        py={3}
         justify="space-between"
         align="center"
       >
-        <MotionBox whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Link href="/" _hover={{ textDecoration: 'none' }}>
-            <Text
-              fontSize="lg"
-              fontWeight={700}
-              color="gray.900"
-              letterSpacing="-0.02em"
-              _hover={{ color: 'brand.500' }}
-              transition="color 0.2s"
-            >
-              Abrar Nafiu
-            </Text>
-          </Link>
-        </MotionBox>
+        <Link href="/" _hover={{ textDecoration: 'none' }}>
+          <Text
+            fontFamily="heading"
+            fontSize={{ base: 'xl', md: '2xl' }}
+            color={colors.ink}
+            letterSpacing="0.02em"
+            textShadow={`3px 3px 0 ${colors.yellow}`}
+            lineHeight={1}
+          >
+            ABRAR
+          </Text>
+        </Link>
 
-        <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
-          {navItems.map((item, i) => (
-            <MotionBox
+        <HStack
+          spacing={7}
+          display={{ base: 'none', md: 'flex' }}
+          fontFamily="condensed"
+          fontWeight={700}
+          letterSpacing="0.08em"
+          textTransform="uppercase"
+          fontSize="md"
+        >
+          {navItems.map((item) => (
+            <Box
               key={item.id}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.04 }}
+              as="button"
+              onClick={() => scrollTo(item.id)}
+              color={colors.ink}
+              cursor="pointer"
+              position="relative"
+              _hover={{ color: colors.blue }}
+              transition="color 0.15s"
             >
-              <Box
-                as="button"
-                onClick={() => scrollTo(item.id)}
-                color="gray.600"
-                fontWeight={500}
-                fontSize="sm"
-                _hover={{ color: 'brand.600' }}
-                transition="color 0.2s"
-                cursor="pointer"
-                position="relative"
-                pb={1}
-                role="group"
-              >
-                {item.label}
-                <MotionBox
-                  position="absolute"
-                  left={0}
-                  bottom={0}
-                  h="2px"
-                  bg="brand.500"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.2 }}
-                  style={{ originX: 0 }}
-                />
-              </Box>
-            </MotionBox>
+              {item.label}
+            </Box>
           ))}
         </HStack>
+
+        <IconButton
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          icon={open ? <FaTimes /> : <FaBars />}
+          display={{ base: 'inline-flex', md: 'none' }}
+          variant="outline"
+          size="sm"
+          onClick={() => setOpen((v) => !v)}
+          border={`2px solid ${colors.ink}`}
+          borderRadius={0}
+          bg={colors.paper}
+        />
       </Flex>
-    </MotionBox>
+
+      {open && (
+        <Box
+          display={{ base: 'block', md: 'none' }}
+          borderTop={`2px solid ${colors.ink}`}
+          bg={colors.yellow}
+          px={4}
+          py={4}
+        >
+          {navItems.map((item) => (
+            <Box
+              key={item.id}
+              as="button"
+              display="block"
+              w="full"
+              textAlign="left"
+              py={3}
+              fontFamily="condensed"
+              fontWeight={800}
+              fontSize="xl"
+              letterSpacing="0.08em"
+              textTransform="uppercase"
+              borderBottom={`2px solid ${colors.ink}`}
+              onClick={() => scrollTo(item.id)}
+            >
+              {item.label}
+            </Box>
+          ))}
+        </Box>
+      )}
+    </Box>
   )
 }

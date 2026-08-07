@@ -1,100 +1,114 @@
-import { Box, Container, Heading, Text, VStack, HStack, Link, Button } from '@chakra-ui/react'
+import { Box, Container, Heading, Text, VStack, HStack, Link, Button, Flex } from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
+import { colors } from '../theme'
+import { StripeField } from './AnimatedBackground'
 
 const MotionBox = motion(Box)
 
 const links = [
   { href: 'mailto:abrarnafiu@abrarnafiu.com', label: 'Email', icon: FaEnvelope },
-  { href: 'https://www.linkedin.com/in/abrar-nafiu/', label: 'LinkedIn', icon: FaLinkedin, external: true },
+  {
+    href: 'https://www.linkedin.com/in/abrar-nafiu/',
+    label: 'LinkedIn',
+    icon: FaLinkedin,
+    external: true,
+  },
   { href: 'https://github.com/abrarnafiu', label: 'GitHub', icon: FaGithub, external: true },
 ]
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-}
-
 export const Contact = () => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
-    <Box py={{ base: 16, md: 20 }} bg="gray.50" position="relative" overflow="hidden">
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="radial-gradient(ellipse 80% 50% at 50% 100%, rgba(99, 102, 241, 0.08), transparent 50%)"
-        pointerEvents="none"
-      />
-      <Container maxW="1200px" position="relative" zIndex={1}>
+    <Box
+      as="section"
+      aria-labelledby="contact-heading"
+      py={{ base: 16, md: 24 }}
+      bg={colors.red}
+      color={colors.paper}
+      position="relative"
+      overflow="hidden"
+      borderBottom={`4px solid ${colors.ink}`}
+    >
+      <StripeField color={colors.ink} opacity={0.08} />
+      <Container maxW="1240px" px={{ base: 4, md: 8 }} position="relative" zIndex={1}>
         <MotionBox
           ref={ref}
-          variants={container}
-          initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
         >
-          <VStack spacing={8} py={8}>
-            <MotionBox variants={item}>
-              <Heading size="lg" color="gray.900" fontWeight={700} letterSpacing="-0.02em">
-                Get in touch
-              </Heading>
-            </MotionBox>
-            <MotionBox variants={item}>
-              <Text color="gray.600" fontSize="md" textAlign="center" maxW="400px">
-                Open to collaborations and opportunities. Say hello.
-              </Text>
-            </MotionBox>
-            <HStack spacing={4} flexWrap="wrap" justify="center">
+          <VStack align="stretch" spacing={8}>
+            <Text
+              fontFamily="condensed"
+              fontWeight={700}
+              letterSpacing="0.14em"
+              textTransform="uppercase"
+              fontSize="sm"
+              color={colors.yellow}
+            >
+              05 — Contact
+            </Text>
+
+            <Heading
+              as="h2"
+              id="contact-heading"
+              fontSize={{ base: '4xl', sm: '5xl', md: '7xl' }}
+              lineHeight={0.95}
+              color={colors.paper}
+              textShadow={`6px 6px 0 ${colors.ink}`}
+              maxW="900px"
+            >
+              LET&apos;S BUILD SOMETHING LOUD.
+            </Heading>
+
+            <Text fontSize={{ base: 'lg', md: 'xl' }} maxW="480px" opacity={0.95}>
+              Open to collaborations, co-ops, and full-time opportunities. Say hello.
+            </Text>
+
+            <Flex gap={4} flexWrap="wrap" pt={2}>
               {links.map(({ href, label, icon: Icon, external }) => (
-                <MotionBox
+                <Button
                   key={label}
-                  variants={item}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
+                  as={Link}
+                  href={href}
+                  isExternal={!!external}
+                  size="lg"
+                  leftIcon={<Icon size={18} />}
+                  bg={colors.yellow}
+                  color={colors.ink}
+                  border={`2px solid ${colors.ink}`}
+                  boxShadow={`4px 4px 0 ${colors.ink}`}
+                  _hover={{
+                    bg: colors.yellowHot,
+                    textDecoration: 'none',
+                    transform: 'translate(-2px, -2px)',
+                    boxShadow: `6px 6px 0 ${colors.ink}`,
+                  }}
                 >
-                  <Button
-                    as={Link}
-                    href={href}
-                    isExternal={!!external}
-                    variant="outline"
-                    size="md"
-                    borderRadius="12px"
-                    leftIcon={<Icon size={18} />}
-                    color="gray.700"
-                    borderColor="gray.300"
-                    _hover={{
-                      borderColor: 'brand.400',
-                      color: 'brand.600',
-                      bg: 'white',
-                      textDecoration: 'none',
-                      boxShadow: '0 8px 24px rgba(99, 102, 241, 0.15)',
-                    }}
-                    transition="all 0.25s ease"
-                  >
-                    {label}
-                  </Button>
-                </MotionBox>
+                  {label}
+                </Button>
               ))}
-            </HStack>
-            <MotionBox variants={item}>
-              <Text fontSize="sm" color="gray.400" pt={8}>
+            </Flex>
+
+            <HStack
+              justify="space-between"
+              flexWrap="wrap"
+              gap={3}
+              pt={10}
+              borderTop={`2px solid ${colors.paper}`}
+              opacity={0.85}
+            >
+              <Text fontFamily="condensed" fontWeight={700} letterSpacing="0.08em" textTransform="uppercase">
                 © {new Date().getFullYear()} Abrar Nafiu
               </Text>
-            </MotionBox>
+              <Text fontFamily="condensed" fontWeight={600} letterSpacing="0.06em">
+                abrarnafiu.com
+              </Text>
+            </HStack>
           </VStack>
         </MotionBox>
       </Container>
