@@ -40,6 +40,17 @@ const workExperiences = [
     ],
   },
   {
+    company: 'NExT Consulting',
+    role: 'Software Engineering Co-op',
+    location: 'Boston, MA',
+    period: 'Jan. 2026 – April 2026',
+    bullets: [
+      'Built and shipped a production-grade full-stack application for external clients, designing RESTful APIs, normalized relational schemas, and cloud-deployed services used by thousands of end users',
+      'Implemented backend services (Node.js) and frontend interfaces (React, TypeScript), improving feature response times by 25% through query optimization and data access improvements',
+      'Collaborated in agile, cross-functional teams to define system architecture, conduct code reviews, and ensure production-ready deployments using Git, CI/CD pipelines, and Docker',
+    ],
+  },
+  {
     company: 'Amazon',
     role: 'Junior Coder (3-year Apprenticeship Program)',
     location: 'New York, NY',
