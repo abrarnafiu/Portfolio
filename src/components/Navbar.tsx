@@ -34,9 +34,10 @@ export const Navbar: React.FC = () => {
       left={0}
       right={0}
       zIndex={100}
-      bg={scrolled || open ? colors.paper : 'transparent'}
-      borderBottom={scrolled || open ? `3px solid ${colors.ink}` : '3px solid transparent'}
-      transition="background 0.2s ease, border-color 0.2s ease"
+      bg={colors.paper}
+      borderBottom={`3px solid ${colors.ink}`}
+      boxShadow={scrolled ? `0 4px 0 rgba(11, 11, 11, 0.12)` : 'none'}
+      transition="box-shadow 0.2s ease"
     >
       <Flex
         maxW="1240px"
